@@ -31,30 +31,186 @@
 
         <nav id="marathon-nav">
             <div class="days-container">
-                <!-- Day buttons will be inserted here by JavaScript -->
+                <button data-target="day-page--1">Подготовка 1</button>
+                <button data-target="day-page-0">Подготовка 2</button>
+                <button data-target="day-page-1">День 1</button>
+                <button data-target="day-page-2">День 2</button>
+                <button data-target="day-page-3">День 3</button>
+                <button data-target="day-page-4">День 4</button>
+                <button data-target="day-page-5">День 5</button>
+                <button data-target="day-page-6">День 6</button>
+                <button data-target="day-page-7">День 7</button>
             </div>
         </nav>
 
         <section id="supplementary-materials">
             <h2>Дополнительные материалы</h2>
             <div class="supplementary-buttons">
-                <button data-supplement="recipes"><i class='bx bxs-dish'></i><span>Рецепты</span></button>
-                <button data-supplement="desserts"><i class='bx bxs-cake'></i><span>Десерты</span></button>
-                <button data-supplement="checkup"><i class='bx bxs-file-plus'></i><span>Чек-ап</span></button>
+                <button data-target="supplement-page-recipes"><i class='bx bxs-dish'></i><span>Рецепты</span></button>
+                <button data-target="supplement-page-desserts"><i class='bx bxs-cake'></i><span>Десерты</span></button>
+                <button data-target="supplement-page-checkup"><i class='bx bxs-file-plus'></i><span>Чек-ап</span></button>
             </div>
         </section>
         
         <footer>
-            <p>&copy; 2024 "ХУДЕЕМ ЗА НЕДЕЛЮ"</p>
+            <p>&copy; 2025 "ХУДЕЕМ ЗА НЕДЕЛЮ"</p>
         </footer>
     </main>
 
-    <!-- Part 3: Content Modal -->
-    <div id="content-modal" class="hidden">
-        <button id="close-modal-button"><i class='bx bx-x'></i></button>
-        <div id="modal-content-area">
-            <!-- Dynamic content will be injected here -->
-        </div>
+    <!-- Part 3: Content Pages -->
+    <div id="content-pages">
+
+        <!-- Day -1 -->
+        <section id="day-page--1" class="page-content hidden">
+            <button class="close-page-button"><i class='bx bx-x'></i></button>
+            <div class="page-content-area">
+                <img src="https://images.unsplash.com/photo-1543353071-873f6b6a6a89?q=80&w=2070&auto=format&fit=crop" alt="Подготовка: День 1" class="post-image">
+                <h3>Подготовка: День 1</h3>
+                <p>Приветствие, полезные привычки и основы интервального питания. Готовимся к марафону правильно.</p>
+                <h4>Видео-материалы дня</h4>
+                <div class="video-container">
+                    <video src="https://file-storage.bothelp.io/myuppy/39/390a/390a7067549a67c3c906860f51b8a9a7/%D0%9C%D0%90%D1%80%D0%B0%D1%84%D0%BE%D0%BD%20%D0%9F%D1%80%D0%B8%D0%B2%D0%B5%D1%82%D1%81%D1%82%D0%B2%D0%B8%D0%B5.mp4" controls></video>
+                    <video src="https://file-storage.bothelp.io/myuppy/7a/7a17/7a17f68fd6cb1498ea48e8e6d738e7d7/%D0%9F%D1%80%D0%BE%20%D0%BC%D1%8B%D1%88%D1%86%D1%8B%20%D1%82%D0%B0%D0%B7%D0%BE%D0%B2%D0%BE%D0%B3%D0%BE%20%D0%B4%D0%BD%D0%B0%20%2B%D1%83%D0%BF%D1%80%D0%B0%D0%B6%D0%BD%D0%B5%D0%BD%D0%B8%D1%8F.mp4" controls></video>
+                </div>
+                <h4>Полезные материалы</h4>
+                <button class="pdf-button" data-pdf-url="./spisok_produktov.pdf">Скачать список продуктов</button>
+            </div>
+        </section>
+
+        <!-- Day 0 -->
+        <section id="day-page-0" class="page-content hidden">
+            <button class="close-page-button"><i class='bx bx-x'></i></button>
+            <div class="page-content-area">
+                <img src="https://images.unsplash.com/photo-1528712306095-ed8633fec3f4?q=80&w=1974&auto=format&fit=crop" alt="Подготовка: День 2" class="post-image">
+                <h3>Подготовка: День 2</h3>
+                <p>Сегодня мы составляем меню на время марафона. Правильное питание - ключ к успеху.</p>
+                <h4>Полезные материалы</h4>
+                <button class="pdf-button" data-pdf-url="./menu.pdf">Скачать меню</button>
+            </div>
+        </section>
+
+        <!-- Day 1 -->
+        <section id="day-page-1" class="page-content hidden">
+            <button class="close-page-button"><i class='bx bx-x'></i></button>
+            <div class="page-content-area">
+                <img src="https://images.unsplash.com/photo-1516534778568-6e4c088a2485?q=80&w=2070&auto=format&fit=crop" alt="День 1: Мозг - наш союзник" class="post-image">
+                <h3>День 1: Мозг - наш союзник</h3>
+                <p>Как использовать силу своего мозга для достижения целей. Работаем с мотивацией.</p>
+                <h4>Видео-материалы дня</h4>
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/5qap5aO4i9A" allowfullscreen></iframe>
+                </div>
+            </div>
+        </section>
+
+        <!-- Day 2 -->
+        <section id="day-page-2" class="page-content hidden">
+            <button class="close-page-button"><i class='bx bx-x'></i></button>
+            <div class="page-content-area">
+                <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=2120&auto=format&fit=crop" alt="День 2: Лимфатическая система" class="post-image">
+                <h3>День 2: Лимфатическая система</h3>
+                <p>Разгоняем лимфу для избавления от отеков и улучшения самочувствия. Смотрите видео с упражнениями.</p>
+                <h4>Видео-материалы дня</h4>
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/g_tea8ZN-mQ" allowfullscreen></iframe>
+                    <iframe src="https://www.youtube.com/embed/9vPE_aR_I_4" allowfullscreen></iframe>
+                    <iframe src="https://www.youtube.com/embed/t0kACis_d3U" allowfullscreen></iframe>
+                    <iframe src="https://www.youtube.com/embed/a-x32b-a_yQ" allowfullscreen></iframe>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ... other days ... -->
+         <section id="day-page-3" class="page-content hidden">
+            <button class="close-page-button"><i class='bx bx-x'></i></button>
+            <div class="page-content-area">
+                <img src="https://images.unsplash.com/photo-1506126613408-4e61f36d50da?q=80&w=2070&auto=format&fit=crop" alt="День 3: Медитация и дыхание" class="post-image">
+                <h3>День 3: Медитация и дыхание</h3>
+                <p>Учимся техникам расслабления, которые помогут справиться со стрессом и улучшить концентрацию.</p>
+                <h4>Видео-материалы дня</h4>
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/o7E_9a3e2I4" allowfullscreen></iframe>
+                    <iframe src="https://www.youtube.com/embed/G_h_iAYd-b4" allowfullscreen></iframe>
+                    <iframe src="https://www.youtube.com/embed/8_Rfe3A-d4" allowfullscreen></iframe>
+                </div>
+            </div>
+        </section>
+        <section id="day-page-4" class="page-content hidden">
+            <button class="close-page-button"><i class='bx bx-x'></i></button>
+            <div class="page-content-area">
+                <img src="https://images.unsplash.com/photo-1556761175-5973693df316?q=80&w=1974&auto=format&fit=crop" alt="День 4: Правило тарелки" class="post-image">
+                <h3>День 4: Правило тарелки</h3>
+                <p>Простой и эффективный способ сбалансировать свой рацион без подсчета калорий.</p>
+                <h4>Видео-материалы дня</h4>
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/h6_n05B6h3A" allowfullscreen></iframe>
+                    <iframe src="https://www.youtube.com/embed/5qap5aO4i9A" allowfullscreen></iframe>
+                </div>
+            </div>
+        </section>
+        <section id="day-page-5" class="page-content hidden">
+            <button class="close-page-button"><i class='bx bx-x'></i></button>
+            <div class="page-content-area">
+                <img src="https://images.unsplash.com/photo-1607619056574-7d8d3ee536b2?q=80&w=2146&auto=format&fit=crop" alt="День 5: Важность БАДов" class="post-image">
+                <h3>День 5: Важность БАДов</h3>
+                <p>Разбираемся, какие добавки действительно нужны нашему организму и как их правильно принимать.</p>
+                <h4>Видео-материалы дня</h4>
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/I-ovzUNq6sU" allowfullscreen></iframe>
+                </div>
+            </div>
+        </section>
+        <section id="day-page-6" class="page-content hidden">
+            <button class="close-page-button"><i class='bx bx-x'></i></button>
+            <div class="page-content-area">
+                <img src="https://images.unsplash.com/photo-1508615039623-a25605d2b022?q=80&w=2070&auto=format&fit=crop" alt="День 6: Интеграция" class="post-image">
+                <h3>День 6: Интеграция</h3>
+                <p>Закрепляем полученные знания и готовимся применять их в повседневной жизни. Свободная тема.</p>
+                <h4>Видео-материалы дня</h4>
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/g_tea8ZN-mQ" allowfullscreen></iframe>
+                </div>
+            </div>
+        </section>
+        <section id="day-page-7" class="page-content hidden">
+            <button class="close-page-button"><i class='bx bx-x'></i></button>
+            <div class="page-content-area">
+                <img src="https://images.unsplash.com/photo-1475694867822-f0d3b134a530?q=80&w=2070&auto=format&fit=crop" alt="День 7: Новая жизнь" class="post-image">
+                <h3>День 7: Новая жизнь</h3>
+                <p>Подводим итоги и строим планы на будущее. Вы на верном пути к здоровью и красоте!</p>
+                <h4>Видео-материалы дня</h4>
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/9vPE_aR_I_4" allowfullscreen></iframe>
+                </div>
+            </div>
+        </section>
+
+        <!-- Supplementary Pages -->
+        <section id="supplement-page-recipes" class="page-content hidden">
+            <button class="close-page-button"><i class='bx bx-x'></i></button>
+            <div class="page-content-area">
+                <h3>Рецепты</h3>
+                <p>Сборник здоровых и вкусных рецептов на каждый день.</p>
+                <button class="pdf-button" data-pdf-url="./recipes.pdf"><i class='bx bxs-file-pdf'></i> Открыть файл</button>
+            </div>
+        </section>
+        <section id="supplement-page-desserts" class="page-content hidden">
+            <button class="close-page-button"><i class='bx bx-x'></i></button>
+            <div class="page-content-area">
+                <h3>Десерты</h3>
+                <p>Полезные десерты, которые можно есть без вреда для фигуры.</p>
+                <button class="pdf-button" data-pdf-url="./desserts.pdf"><i class='bx bxs-file-pdf'></i> Открыть файл</button>
+            </div>
+        </section>
+        <section id="supplement-page-checkup" class="page-content hidden">
+            <button class="close-page-button"><i class='bx bx-x'></i></button>
+            <div class="page-content-area">
+                <h3>Чек-ап здоровья</h3>
+                <p>Список анализов, которые стоит сдавать регулярно для контроля своего здоровья.</p>
+                <button class="pdf-button" data-pdf-url="./checkup.pdf"><i class='bx bxs-file-pdf'></i> Открыть файл</button>
+            </div>
+        </section>
+
     </div>
 
     <!-- Persistent Bottom Navigation -->

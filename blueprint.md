@@ -1,63 +1,57 @@
 
-# Blueprint: "7 Days to Summer" Marathon App
+# Blueprint: Марафон "ХУДЕЕМ ЗА НЕДЕЛЮ"
 
-## Overview
+## Обзор
 
-This document outlines the development of a web application for a 7-day health and nutrition marathon. The application is designed with a modern, mobile-first, multi-page flow, guiding the user from a dedicated landing page to a central menu and then into distinct, modal-based content pages for each day.
+Это веб-приложение представляет собой 7-дневный марафон по похудению с двумя подготовительными днями. Цель приложения — предоставить пользователям структурированный и легкий доступ к ежедневным учебным материалам, включая видео, текстовые посты и PDF-файлы.
 
-## Project Outline & Features
+Приложение разработано как одностраничное (SPA), но с использованием **статической архитектуры**, где каждая "страница" (день марафона или дополнительный материал) является предзагруженной HTML-секцией, что обеспечивает максимальную надежность и производительность.
 
-### Core Structure
-*   **Framework**: Framework-less modern web project (HTML, CSS, JavaScript).
-*   **Entry Point**: `index.html`
-*   **Styling**: `style.css`
-*   **Logic**: `main.js`
+## Реализованные функции и дизайн
 
-### Application Flow & Architecture
+### 1. **Стартовая страница (Landing Page)**
+- Полноэкранный приветственный экран с фоновым изображением.
+- Заголовок "ХУДЕЕМ ЗА НЕДЕЛЮ" и мотивирующий подзаголовок.
+- Кнопка "Старт" для перехода к основному контенту.
 
-The application is structured as a single-page application that simulates a multi-page experience using JavaScript to show and hide different full-screen sections.
+### 2. **Главное меню**
+- После старта пользователь попадает на главный экран.
+- Отображается заголовок "План марафона".
+- **Вертикальное меню кнопок:** "Подготовка 1", "Подготовка 2", "День 1" и так далее до "Дня 7".
+- Секция "Дополнительные материалы" с кнопками "Рецепты", "Десерты", "Чек-ап".
 
-1.  **Landing Page (`#landing-page`)**:
-    *   **Purpose**: The initial entry point for the user.
-    *   **Design**: A full-screen view (100vh) featuring a single, vertically oriented (9:16) background image, the marathon title, and a prominent "Start" button.
-    *   **Functionality**: Clicking "Start" transitions the user to the Main Menu.
+### 3. **Страницы контента (статические секции)**
+- Каждая кнопка из главного меню открывает соответствующую ей **статическую HTML-секцию**.
+- Это заменяет предыдущую "динамическую" логику модальных окон для повышения надежности.
+- Каждая страница содержит:
+    - Кнопку "Закрыть" для возврата в главное меню.
+    - Изображение-баннер дня.
+    - Заголовок и текстовое описание.
+    - **Видео-материалы:**
+        - Видеоплееры для прямых ссылок (`.mp4`) и встраиваемые плееры YouTube (`iframe`).
+        - Видео расположены **вертикально** друг под другом. Сами плееры имеют **вертикальное соотношение сторон 9:16**, стилизованное под просмотр на мобильном устройстве.
+    - Кнопку для открытия связанных PDF-файлов.
 
-2.  **Main Menu (`#main-page`)**:
-    *   **Purpose**: The central navigation hub of the application.
-    *   **Design**: Contains the primary header, the day-by-day marathon navigation, the supplementary materials section, and a fixed bottom navigation bar.
-    *   **Functionality**: Buttons in this section do not show content in-place but trigger the Content Modal.
+### 4. **Просмотрщик PDF**
+- При нажатии на кнопку PDF открывается полноэкранное модальное окно.
+- Внутри модального окна `<iframe>` отображает содержимое PDF-файла.
+- Есть кнопка для закрытия простмотщика.
 
-3.  **Content Modal (`#content-modal`)**:
-    *   **Purpose**: A full-screen overlay to display the content for any selected day or supplementary item.
-    *   **Design**: A modal window that covers the Main Menu. It has its own internal scrolling and a distinct, always-visible "Close" button.
-    *   **Functionality**: The content (text, videos, PDF links) is dynamically loaded into this modal. The close button hides the modal and returns the user to the Main Menu.
+### 5. **Нижняя навигационная панель**
+- Постоянно закреплена внизу экрана (кроме стартовой страницы).
+- Содержит кнопки "Главная" (для возврата в меню) и "Общение".
 
-### Implemented Design & Style
-*   **Color Palette ("Grape" Theme)**: The design uses a calming, grape-inspired palette for backgrounds, text, and accents.
-*   **Layout**: A responsive, mobile-first design that provides a native-app-like experience.
-*   **Bottom Navigation**: A fixed bar at the bottom of the screen provides persistent navigation with "Home" and "Chat" icons.
+## План текущего изменения (Выполнено)
 
-### Implemented Features
-*   **Three-Part App Structure**: Clear and distinct Landing, Main Menu, and Content Modal views.
-*   **Modal-Based Content**: All daily and supplementary content is displayed in a full-screen, closable modal window.
-*   **Optimized for Vertical Video**: The video player is styled for a 9:16 aspect ratio.
-*   **Local PDF Integration**: All PDF links point to local files in the project's root directory.
+**Задача:** Устранить проблему с неработающим видеоплеером, повысить общую надежность и изменить формат видео на вертикальный.
 
-## Current Plan
+**Выполненные шаги:**
 
-**Objective**: Rearchitect the entire application to a new, three-part structure with a landing page, a main menu, and modal-based content windows. Add a fixed bottom navigation bar.
+1.  **Отказ от динамической генерации контента:** Полностью удалена JavaScript-логика, которая создавала HTML на лету.
+2.  **Создание статических HTML-секций:** В `index.html` были добавлены все страницы для каждого дня.
+3.  **Упрощение JavaScript:** `main.js` был переписан для простого переключения видимости статических секций.
+4.  **Адаптация CSS:** Стили были обновлены для работы с новой структурой.
+5.  **Вертикальное выравнивание видео:** Контейнер для видео был изменен для отображения плееров в один столбец.
+6.  **Вертикальный формат видео (9:16):** Для всех видеоплееров установлено соотношение сторон `9:16`, задана максимальная ширина `360px` и они отцентрованы по горизонтали для имитации просмотра на смартфоне.
 
-**Steps**:
-
-1.  **Update `blueprint.md`**: Create a new blueprint reflecting the new application architecture.
-2.  **Restructure `index.html`**:
-    *   Create three main containers: `<div id="landing-page">`, `<main id="main-page" class="hidden">`, and `<div id="content-modal" class="hidden">`.
-    *   Add a `<nav id="bottom-nav">` with "Home" and "Chat" buttons inside the main page.
-3.  **Overhaul `style.css`**:
-    *   Add styles for the full-screen landing page, the main page layout, the fixed bottom navigation, and the full-screen content modal with its close button.
-4.  **Refactor `main.js`**:
-    *   Remove the old Web Component classes (`MarathonDay`, `SupplementaryMaterial`).
-    *   Create a "Start" button event listener to hide the landing page and show the main page.
-    *   Modify the day and supplementary button listeners to dynamically build HTML content and inject it into the content modal before showing it.
-    *   Add a listener for the modal's "Close" button to hide the modal.
-    *   Add a listener for the "Home" button in the bottom navigation to also close the modal.
+**Результат:** Приложение теперь работает по простому и надежному статическому принципу. Проблема с видео решена, а плееры имеют корректный вертикальный формат. Код стал более предсказуемым и легким для поддержки.
