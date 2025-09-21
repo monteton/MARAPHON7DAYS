@@ -1,1 +1,1 @@
-# MARAPHON7DAYS
+A simple HTML/JS/CSS starter template

@@ -1,0 +1,263 @@
+
+:root {
+    --primary-bg: #F5F6F4;
+    --card-bg: rgba(255, 255, 255, 0.7);
+    --text-color: #5E5A56;
+    --accent-color: #93A456;
+    --accent-hover: #7D8E4A;
+    --secondary-accent: #8B8581;
+    --shadow-color: rgba(147, 164, 86, 0.15);
+    --font-family: 'Montserrat', sans-serif;
+    --bottom-nav-height: 70px;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-family);
+    overflow-x: hidden;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Remove body padding when the landing page is visible */
+body:has(#landing-page:not(.hidden)) {
+    padding-bottom: 0;
+}
+
+/* Add padding to the body to prevent content from being hidden by the bottom nav */
+body {
+    padding-bottom: var(--bottom-nav-height);
+}
+
+/* --- Part 1: Landing Page --- */
+#landing-page {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    background: url('https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1974&auto=format&fit=crop') no-repeat center center/cover; 
+    background-color: var(--secondary-accent);
+    position: fixed; /* Use fixed positioning to keep it full screen */
+    top: 0; left: 0;
+    box-sizing: border-box;
+}
+
+#landing-page::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.landing-content {
+    position: relative;
+    z-index: 2;
+    padding: 1rem;
+}
+
+.landing-content h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+}
+
+.landing-content p {
+    font-size: 1.3rem;
+    margin-bottom: 2.5rem;
+    opacity: 0.9;
+}
+
+#start-button {
+    background-color: var(--accent-color);
+    color: white;
+    padding: 1rem 3rem;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+}
+
+#start-button:hover {
+    background-color: var(--accent-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.3);
+}
+
+/* --- Part 2: Main Menu Page --- */
+#main-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--primary-bg);
+    box-sizing: border-box;
+}
+
+#main-page header {
+    text-align: center;
+    padding: 1.5rem;
+    background: var(--card-bg);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+#main-page header h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin: 0;
+    color: var(--text-color);
+}
+
+.days-container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    padding: 1.5rem;
+}
+
+.supplementary-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1.5rem;
+}
+
+.days-container button, .supplementary-buttons button {
+    color: var(--text-color);
+    background-color: var(--card-bg);
+    border: 1px solid transparent;
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    font-family: var(--font-family);
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px var(--shadow-color);
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.days-container button:hover, .supplementary-buttons button:hover {
+    background: var(--accent-color);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px var(--shadow-color);
+}
+
+#supplementary-materials h2 {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-top: 1rem;
+    margin-bottom: 0;
+}
+
+#main-page footer {
+    text-align: center;
+    padding: 1rem;
+    margin-top: auto;
+    color: var(--secondary-accent);
+    font-size: 0.9rem;
+}
+
+/* --- Bottom Navigation --- */
+#bottom-nav {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: var(--bottom-nav-height);
+    background: white;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+    z-index: 2500; /* High z-index to stay on top */
+}
+
+#bottom-nav button {
+    background: none; border: none;
+    color: var(--secondary-accent);
+    font-family: var(--font-family);
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    transition: color 0.3s ease;
+}
+
+#bottom-nav button:hover { color: var(--accent-color); }
+#bottom-nav i { font-size: 1.8rem; }
+
+
+/* --- Part 3: Content Modal --- */
+#content-modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--primary-bg);
+    z-index: 2000;
+    overflow-y: auto;
+    padding: 1.5rem;
+    padding-top: 60px; /* Space for close button */
+    padding-bottom: calc(var(--bottom-nav-height) + 1.5rem); /* Space for nav bar */
+    box-sizing: border-box;
+}
+
+#close-modal-button {
+    position: fixed;
+    top: 15px; right: 15px;
+    width: 40px; height: 40px;
+    background: var(--accent-color);
+    color: white;
+    border: none; border-radius: 50%;
+    font-size: 28px; line-height: 40px; text-align: center;
+    cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+    z-index: 2001;
+}
+
+#close-modal-button:hover { 
+    transform: scale(1.1) rotate(90deg); 
+    background: var(--accent-hover); 
+}
+
+#modal-content-area h3 { font-size: 2.5rem; color: var(--text-color); font-weight: 800; margin-bottom: 1rem; }
+#modal-content-area p { font-size: 1.2rem; line-height: 1.8; color: var(--text-color); margin-bottom: 2rem; opacity: 0.9; }
+#modal-content-area .post-image { width: 100%; height: 350px; object-fit: cover; border-radius: 12px; margin-bottom: 2rem; }
+#modal-content-area h4 { font-size: 1.8rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--text-color); border-left: 4px solid var(--accent-color); padding-left: 1rem; }
+#modal-content-area .video-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+#modal-content-area iframe { width: 100%; aspect-ratio: 9 / 16; border: none; border-radius: 12px; max-height: 70vh; justify-self: center; }
+#modal-content-area .pdf-button { background-color: var(--accent-color); color: white; padding: 1rem 2rem; border: none; border-radius: 8px; font-size: 1.1rem; cursor: pointer; transition: all 0.3s; font-weight: 700; }
+#modal-content-area .pdf-button:hover { background-color: var(--accent-hover); }
+
+/* PDF Viewer */
+#pdf-viewer-modal {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 3000;
+}
+#pdf-viewer-modal iframe { width: 90%; height: 90%; border: none; border-radius: 12px; }
+#pdf-viewer-modal .close-pdf-modal { position: absolute; top: 20px; right: 20px; background: white; color: black; font-size: 30px; width: 40px; height: 40px; border: none; border-radius: 50%; cursor: pointer; }
+
+@media (max-width: 768px) {
+    .landing-content h1 { font-size: 2.8rem; }
+    #main-page header h1 { font-size: 1.8rem; }
+    .days-container, .supplementary-buttons { padding: 1rem; }
+    #modal-content-area .video-container { grid-template-columns: 1fr; }
+    #modal-content-area iframe { max-height: 80vh; }
+}

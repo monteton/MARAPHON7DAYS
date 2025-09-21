@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ХУДЕЕМ ЗА НЕДЕЛЮ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="style.css">
+    <script src="main.js" defer></script>
+</head>
+<body>
+
+    <!-- Part 1: Landing Page -->
+    <div id="landing-page">
+        <div class="landing-content">
+            <h1>ХУДЕЕМ ЗА НЕДЕЛЮ</h1>
+            <p>Ваш путь к здоровью и красоте начинается здесь</p>
+            <button id="start-button">Старт</button>
+        </div>
+    </div>
+
+    <!-- Part 2: Main Menu Page -->
+    <main id="main-page" class="hidden">
+        <header>
+            <h1>План марафона</h1>
+        </header>
+
+        <nav id="marathon-nav">
+            <div class="days-container">
+                <!-- Day buttons will be inserted here by JavaScript -->
+            </div>
+        </nav>
+
+        <section id="supplementary-materials">
+            <h2>Дополнительные материалы</h2>
+            <div class="supplementary-buttons">
+                <button data-supplement="recipes"><i class='bx bxs-dish'></i><span>Рецепты</span></button>
+                <button data-supplement="desserts"><i class='bx bxs-cake'></i><span>Десерты</span></button>
+                <button data-supplement="checkup"><i class='bx bxs-file-plus'></i><span>Чек-ап</span></button>
+            </div>
+        </section>
+        
+        <footer>
+            <p>&copy; 2024 "ХУДЕЕМ ЗА НЕДЕЛЮ"</p>
+        </footer>
+    </main>
+
+    <!-- Part 3: Content Modal -->
+    <div id="content-modal" class="hidden">
+        <button id="close-modal-button"><i class='bx bx-x'></i></button>
+        <div id="modal-content-area">
+            <!-- Dynamic content will be injected here -->
+        </div>
+    </div>
+
+    <!-- Persistent Bottom Navigation -->
+    <nav id="bottom-nav">
+        <button id="home-button"><i class='bx bxs-home'></i><span>Главная</span></button>
+        <button id="chat-button"><i class='bx bxs-message-rounded-dots'></i><span>Общение</span></button>
+    </nav>
+
+    <!-- PDF Viewer Modal -->
+    <div id="pdf-viewer-modal" class="hidden">
+         <button class="close-pdf-modal">&times;</button>
+         <iframe src=""></iframe>
+    </div>
+
+</body>
+</html>
