@@ -3,8 +3,8 @@
     --primary-bg: #EEEEEE; /* Нейтрально-серый фон */
     --card-bg: rgba(255, 255, 255, 0.9);
     --text-color: #333333;
-    --accent-color: #007AFF; /* Яркий синий для акцентов */
-    --accent-hover: #0056b3;
+    --accent-color: #81a95b; /* Яркий синий для акцентов */
+    --accent-hover: #81a95b;
     --secondary-accent: #6c757d;
     --shadow-color: rgba(0, 0, 0, 0.08);
     --font-family: 'Montserrat', sans-serif;
