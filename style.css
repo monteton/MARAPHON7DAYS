@@ -1,12 +1,12 @@
 
 :root {
-    --primary-bg: #F5F6F4;
-    --card-bg: rgba(255, 255, 255, 0.7);
-    --text-color: #5E5A56;
-    --accent-color: #93A456;
-    --accent-hover: #7D8E4A;
-    --secondary-accent: #8B8581;
-    --shadow-color: rgba(147, 164, 86, 0.15);
+    --primary-bg: #EEEEEE; /* Нейтрально-серый фон */
+    --card-bg: rgba(255, 255, 255, 0.9);
+    --text-color: #333333;
+    --accent-color: #007AFF; /* Яркий синий для акцентов */
+    --accent-hover: #0056b3;
+    --secondary-accent: #6c757d;
+    --shadow-color: rgba(0, 0, 0, 0.08);
     --font-family: 'Montserrat', sans-serif;
     --bottom-nav-height: 70px;
 }
@@ -130,6 +130,7 @@ body {
     z-index: 2500;
 }
 
+#bottom-nav.hidden { display: none; }
 #bottom-nav button { background: none; border: none; color: var(--secondary-accent); font-family: var(--font-family); font-size: 0.75rem; font-weight: 600; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; transition: color 0.3s ease; }
 #bottom-nav button:hover { color: var(--accent-color); }
 #bottom-nav i { font-size: 1.8rem; }
@@ -169,43 +170,64 @@ body {
 .page-content-area p { font-size: 1.2rem; line-height: 1.8; color: var(--text-color); margin-bottom: 2rem; opacity: 0.9; }
 .page-content-area .post-image { width: 100%; height: 350px; object-fit: cover; border-radius: 12px; margin-bottom: 2rem; }
 .page-content-area h4 { font-size: 1.8rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--text-color); border-left: 4px solid var(--accent-color); padding-left: 1rem; }
-
-/* This rule centers the vertical videos */
-.page-content-area .video-container { 
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; /* This is the new part */
-    gap: 1.5rem; 
-    margin-bottom: 2rem; 
-}
-
-/* This rule makes the videos vertical (9:16) */
-.page-content-area iframe, .page-content-area video {
-    width: 100%;
-    max-width: 360px; /* New: limits width */
-    aspect-ratio: 9 / 16; /* New: sets vertical aspect ratio */
-    border: none; 
-    border-radius: 12px; 
-    max-height: 80vh; /* Increased max-height */
-    background-color: #000;
-}
-
+.page-content-area .video-container { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; margin-bottom: 2rem; }
+.page-content-area iframe, .page-content-area video { width: 100%; max-width: 360px; aspect-ratio: 9 / 16; border: none; border-radius: 12px; max-height: 80vh; background-color: #000; }
 .page-content-area .pdf-button { background-color: var(--accent-color); color: white; padding: 1rem 2rem; border: none; border-radius: 8px; font-size: 1.1rem; cursor: pointer; transition: all 0.3s; font-weight: 700; }
 .page-content-area .pdf-button:hover { background-color: var(--accent-hover); }
 
-/* PDF Viewer */
+/* --- PDF.js Viewer Modal --- */
 #pdf-viewer-modal {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.8);
-    display: flex; justify-content: center; align-items: center;
+    background-color: #333;
+    display: flex;
+    flex-direction: column;
     z-index: 3000;
 }
-#pdf-viewer-modal iframe { width: 90%; height: 90%; border: none; border-radius: 12px; }
-#pdf-viewer-modal .close-pdf-modal { position: absolute; top: 20px; right: 20px; background: white; color: black; font-size: 30px; width: 40px; height: 40px; border: none; border-radius: 50%; cursor: pointer; }
+
+#pdf-viewer-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #222;
+    color: white;
+    padding: 10px 15px;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+#pdf-close-button {
+    background: none; border: none; color: white; font-size: 28px; cursor: pointer;
+    width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+}
+
+#pdf-close-button:hover { background-color: rgba(255, 255, 255, 0.2); }
+
+#pdf-pagination { display: flex; align-items: center; gap: 15px; font-size: 1rem; }
+#pdf-pagination button { background: none; border: none; color: white; font-size: 24px; cursor: pointer; transition: color 0.2s; }
+#pdf-pagination button:hover { color: var(--accent-color); }
+#pdf-pagination button:disabled { color: #666; cursor: not-allowed; }
+
+#pdf-canvas-container {
+    flex-grow: 1;
+    overflow-y: auto;
+    text-align: center; /* Center canvas horizontally */
+    padding: 20px 0;
+}
+
+#pdf-canvas {
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
 
 @media (max-width: 768px) {
     .landing-content h1 { font-size: 2.8rem; }
     #main-page header h1 { font-size: 1.8rem; }
     .days-container, .supplementary-buttons { padding: 1rem; }
+    #pdf-canvas-container { padding: 10px 0; }
+    .page-content-area h3 { font-size: 2rem; }
 }

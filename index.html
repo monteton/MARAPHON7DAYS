@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
     <script src="main.js" defer></script>
 </head>
 <body>
@@ -221,10 +222,19 @@
         <button id="chat-button"><i class='bx bxs-message-rounded-dots'></i><span>Общение</span></button>
     </nav>
 
-    <!-- PDF Viewer Modal -->
+    <!-- PDF.js Viewer Modal -->
     <div id="pdf-viewer-modal" class="hidden">
-         <button class="close-pdf-modal">&times;</button>
-         <iframe src=""></iframe>
+        <div id="pdf-viewer-controls">
+            <button id="pdf-close-button"><i class='bx bx-x'></i></button>
+            <div id="pdf-pagination">
+                <button id="pdf-prev-page"><i class='bx bx-chevron-left'></i></button>
+                <span id="pdf-page-num"></span> / <span id="pdf-page-count"></span>
+                <button id="pdf-next-page"><i class='bx bx-chevron-right'></i></button>
+            </div>
+        </div>
+        <div id="pdf-canvas-container">
+            <canvas id="pdf-canvas"></canvas>
+        </div>
     </div>
 
 </body>
