@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- Page Elements ---
@@ -70,54 +69,66 @@ document.addEventListener('DOMContentLoaded', () => {
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js';
 
     /**
-     * Renders a specific page of the PDF.
+     * Renders a specific page of the PDF, fitting it to the container width.
      * @param {number} num The page number to render.
      */
     const renderPage = num => {
         pageRendering = true;
-        // Get page
+
+        // Get the page from the document
         pdfDoc.getPage(num).then(page => {
-            const viewport = page.getViewport({ scale: 2 }); // Default scale
+            // --- ИСПРАВЛЕННАЯ ЛОГИКА МАСШТАБИРОВАНИЯ ---
+
+            // 1. Получаем viewport с масштабом 1, чтобы узнать оригинальный размер
+            const unscaledViewport = page.getViewport({ scale: 1 });
+
+            // 2. Вычисляем нужный масштаб, чтобы вписать страницу по ширине контейнера.
+            //    Отнимаем 20px, чтобы по бокам остались небольшие отступы для эстетики.
+            const scale = (pdfCanvasContainer.clientWidth - 20) / unscaledViewport.width;
+
+            // 3. Создаем финальный viewport с правильным, вычисленным масштабом
+            const viewport = page.getViewport({ scale: scale });
+
+            // --- КОНЕЦ ИСПРАВЛЕННОЙ ЛОГИКИ ---
+
             const context = pdfCanvas.getContext('2d');
-
-            // Adjust canvas size to match the viewport, considering device pixel ratio for sharpness
             const outputScale = window.devicePixelRatio || 1;
-            const desiredWidth = pdfCanvasContainer.clientWidth;
-            const scale = desiredWidth / viewport.width;
-            const scaledViewport = page.getViewport({ scale: scale });
 
-            pdfCanvas.width = Math.floor(scaledViewport.width * outputScale);
-            pdfCanvas.height = Math.floor(scaledViewport.height * outputScale);
-            pdfCanvas.style.width = Math.floor(scaledViewport.width) + 'px';
-            pdfCanvas.style.height = Math.floor(scaledViewport.height) + 'px';
+            // Устанавливаем фактический размер холста с учетом плотности пикселей для четкости
+            pdfCanvas.width = Math.floor(viewport.width * outputScale);
+            pdfCanvas.height = Math.floor(viewport.height * outputScale);
+
+            // Устанавливаем CSS-размер холста, который видит пользователь
+            pdfCanvas.style.width = Math.floor(viewport.width) + 'px';
+            pdfCanvas.style.height = Math.floor(viewport.height) + 'px';
             
             context.scale(outputScale, outputScale);
 
             const renderContext = {
                 canvasContext: context,
-                viewport: scaledViewport
+                viewport: viewport // Используем финальный viewport для отрисовки
             };
 
             const renderTask = page.render(renderContext);
 
-            // Wait for rendering to finish
+            // Ждем завершения отрисовки
             renderTask.promise.then(() => {
                 pageRendering = false;
                 if (pageNumPending !== null) {
-                    // New page waiting to be rendered
+                    // Если была запрошена другая страница, пока шла отрисовка, рендерим ее
                     renderPage(pageNumPending);
                     pageNumPending = null;
                 }
             });
         });
 
-        // Update page counters
+        // Обновляем счетчик страниц
         pageNumSpan.textContent = num;
     };
 
     /**
-     * If another page rendering in progress, waits until the rendering is
-     * finised. Otherwise, renders the page.
+     * Если другая страница уже рендерится, ставит новую в очередь.
+     * Иначе, сразу рендерит.
      */
     const queueRenderPage = num => {
         if (pageRendering) {
@@ -127,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // --- PDF Viewer Event Handlers ---
+    // --- Обработчики событий для PDF-просмотрщика ---
 
     const onPrevPage = () => {
         if (pageNum <= 1) return;
@@ -144,18 +155,18 @@ document.addEventListener('DOMContentLoaded', () => {
     nextPageButton.addEventListener('click', onNextPage);
 
     /**
-     * Asynchronously downloads and opens a PDF.
-     * @param {string} url The URL of the PDF.
+     * Асинхронно загружает и открывает PDF.
+     * @param {string} url URL PDF-файла.
      */
     const openPdfViewer = (url) => {
         pdfViewerModal.classList.remove('hidden');
-        bottomNav.classList.add('hidden'); // Hide nav when viewer is open
+        bottomNav.classList.add('hidden'); // Прячем навигацию при открытом PDF
 
-        // Asynchronously download PDF
+        // Асинхронная загрузка PDF
         pdfjsLib.getDocument(url).promise.then(pdfDoc_ => {
             pdfDoc = pdfDoc_;
             pageCountSpan.textContent = pdfDoc.numPages;
-            pageNum = 1;
+            pageNum = 1; // Всегда начинаем с первой страницы
             renderPage(pageNum);
         }).catch(err => {
             console.error('Error loading PDF:', err);
@@ -164,14 +175,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
+    // Функция закрытия PDF-просмотрщика
     const closePdfViewer = () => {
         pdfViewerModal.classList.add('hidden');
         bottomNav.classList.remove('hidden');
+        // Сбрасываем состояние
         pdfDoc = null;
         pageNum = 1;
     };
 
-    // Event listener for all PDF buttons
+    // Единый обработчик для всех кнопок, открывающих PDF
     document.body.addEventListener('click', e => {
         const pdfButton = e.target.closest('.pdf-button[data-pdf-url]');
         if (pdfButton) {
@@ -179,5 +192,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Обработчик для кнопки закрытия PDF
     pdfCloseButton.addEventListener('click', closePdfViewer);
 });
