@@ -47,8 +47,8 @@ body {
     background: rgba(0, 0, 0, 0.4);
 }
 .landing-content { position: relative; z-index: 2; padding: 1rem; }
-.landing-content h1 { font-size: 3.5rem; font-weight: 800; margin-bottom: 0.5rem; }
-.landing-content p { font-size: 1.3rem; margin-bottom: 2.5rem; opacity: 0.9; margin-top: 40px; }
+.landing-content h1 { font-size: 3.5rem; font-weight: 800; margin-bottom: 0.5rem; margin-top: 40px;}
+.landing-content p { font-size: 1.3rem; margin-bottom: 2.5rem; opacity: 0.9;  }
 #start-button {
     background-color: var(--accent-color);
     color: #FFFFFF;
