@@ -15,25 +15,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Элементы для просмотра PDF ---
     const pdfViewerModal = document.getElementById('pdf-viewer-modal');
     const pdfCloseButton = document.getElementById('pdf-close-button');
-    const pdfCanvas = document.getElementById('pdf-canvas');
     const pdfCanvasContainer = document.getElementById('pdf-canvas-container');
-    const prevPageButton = document.getElementById('pdf-prev-page');
-    const nextPageButton = document.getElementById('pdf-next-page');
-    const pageNumSpan = document.getElementById('pdf-page-num');
-    const pageCountSpan = document.getElementById('pdf-page-count');
-
-    // --- Состояние PDF ---
-    let pdfDoc = null;
-    let pageNum = 1;
-    let pageRendering = false;
-    let pageNumPending = null;
+    const pdfViewerTitle = document.getElementById('pdf-viewer-title');
 
     // --- Логика приложения ---
 
-    // 1. Начальное состояние: скрыть навигацию на главной странице
+    // 1. Начальное состояние
     bottomNav.classList.add('hidden');
 
-    // Функция для отображения главного меню
+    // 2. Отображение главного меню
     const showMainMenu = () => {
         landingPage.classList.add('hidden');
         mainPage.classList.remove('hidden');
@@ -47,15 +37,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // 2. Кнопка "Старт" и кнопка "Домой"
     startButton.addEventListener('click', showMainMenu);
     homeButton.addEventListener('click', showMainMenu);
 
-    // 3. Открытие страницы с контентом из главного меню
+    // 3. Открытие и закрытие страниц
     mainPageButtons.forEach(button => {
         button.addEventListener('click', () => {
-            const targetId = button.dataset.target;
-            const targetPage = document.getElementById(targetId);
+            const targetPage = document.getElementById(button.dataset.target);
             if (targetPage) {
                 mainPage.classList.add('hidden');
                 targetPage.classList.remove('hidden');
@@ -64,76 +52,49 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 4. Закрытие страницы с контентом
     closePageButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            showMainMenu();
-        });
+        button.addEventListener('click', showMainMenu);
     });
 
     // --- Логика для просмотра PDF ---
 
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js';
 
-    const renderPage = num => {
-        pageRendering = true;
-        pdfDoc.getPage(num).then(page => {
-            const unscaledViewport = page.getViewport({ scale: 1 });
-            const containerWidth = pdfCanvasContainer.clientWidth > 0 ? pdfCanvasContainer.clientWidth : window.innerWidth * 0.9;
-            const scale = (containerWidth - 40) / unscaledViewport.width;
-            const viewport = page.getViewport({ scale: scale });
-            const context = pdfCanvas.getContext('2d');
-            const outputScale = window.devicePixelRatio || 1;
-
-            pdfCanvas.width = Math.floor(viewport.width * outputScale);
-            pdfCanvas.height = Math.floor(viewport.height * outputScale);
-            pdfCanvas.style.width = Math.floor(viewport.width) + 'px';
-            pdfCanvas.style.height = Math.floor(viewport.height) + 'px';
-            
-            context.scale(outputScale, outputScale);
-
-            const renderContext = { canvasContext: context, viewport: viewport };
-            page.render(renderContext).promise.then(() => {
-                pageRendering = false;
-                if (pageNumPending !== null) {
-                    renderPage(pageNumPending);
-                    pageNumPending = null;
-                }
-            });
-        });
-        pageNumSpan.textContent = num;
-    };
-
-    const queueRenderPage = num => {
-        if (pageRendering) pageNumPending = num; else renderPage(num);
-    };
-
-    prevPageButton.addEventListener('click', () => { if (pageNum <= 1) return; pageNum--; queueRenderPage(pageNum); });
-    nextPageButton.addEventListener('click', () => { if (pageNum >= pdfDoc.numPages) return; pageNum++; queueRenderPage(pageNum); });
-
-    const openPdfViewer = (url) => {
+    const openPdfViewer = (url, title) => {
+        pdfViewerTitle.textContent = title;
         pdfViewerModal.classList.remove('hidden');
-        pdfjsLib.getDocument(url).promise.then(pdfDoc_ => {
-            pdfDoc = pdfDoc_;
-            pageCountSpan.textContent = pdfDoc.numPages;
-            pageNum = 1;
-            renderPage(pageNum);
-        }).catch(err => {
-            console.error('Ошибка загрузки PDF:', err);
-            alert('Не удалось загрузить PDF-файл.');
-            closePdfViewer();
+        pdfCanvasContainer.innerHTML = ''; // Очистка перед открытием нового PDF
+
+        const loadingTask = pdfjsLib.getDocument(url);
+        loadingTask.promise.then(pdfDoc => {
+            const numPages = pdfDoc.numPages;
+            const renderAllPages = async () => {
+                for (let pageNum = 1; pageNum <= numPages; pageNum++) {
+                    const page = await pdfDoc.getPage(pageNum);
+                    const viewport = page.getViewport({ scale: 1.5 });
+                    const canvas = document.createElement('canvas');
+                    const context = canvas.getContext('2d');
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+                    canvas.style.marginBottom = '20px';
+                    pdfCanvasContainer.appendChild(canvas);
+
+                    await page.render({ canvasContext: context, viewport: viewport }).promise;
+                }
+            };
+            renderAllPages();
         });
     };
 
     const closePdfViewer = () => {
         pdfViewerModal.classList.add('hidden');
-        pdfDoc = null;
     };
 
     document.body.addEventListener('click', e => {
         const pdfButton = e.target.closest('.pdf-button[data-pdf-url]');
         if (pdfButton) {
-            openPdfViewer(pdfButton.dataset.pdfUrl);
+            const title = pdfButton.textContent.trim();
+            openPdfViewer(pdfButton.dataset.pdfUrl, title);
         }
     });
 
