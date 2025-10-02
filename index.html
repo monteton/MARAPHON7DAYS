@@ -236,16 +236,18 @@
 
     <!-- PDF.js Viewer Modal -->
     <div id="pdf-viewer-modal" class="hidden">
-        <div id="pdf-viewer-controls">
-            <button id="pdf-close-button"><i class='bx bx-x'></i></button>
-            <div id="pdf-pagination">
-                <button id="pdf-prev-page"><i class='bx bx-chevron-left'></i></button>
-                <span id="pdf-page-num"></span> / <span id="pdf-page-count"></span>
-                <button id="pdf-next-page"><i class='bx bx-chevron-right'></i></button>
+        <div id="pdf-viewer-content">
+            <div id="pdf-viewer-controls">
+                <button id="pdf-close-button"><i class='bx bx-x'></i></button>
+                <div id="pdf-pagination">
+                    <button id="pdf-prev-page"><i class='bx bx-chevron-left'></i></button>
+                    <span id="pdf-page-num"></span> / <span id="pdf-page-count"></span>
+                    <button id="pdf-next-page"><i class='bx bx-chevron-right'></i></button>
+                </div>
             </div>
-        </div>
-        <div id="pdf-canvas-container">
-            <canvas id="pdf-canvas"></canvas>
+            <div id="pdf-canvas-container">
+                <canvas id="pdf-canvas"></canvas>
+            </div>
         </div>
     </div>
 

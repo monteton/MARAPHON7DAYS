@@ -27,7 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let pageNum = 1;
     let pageRendering = false;
     let pageNumPending = null;
-    let activeContentPageForPdf = null; // Хранит активную страницу, с которой открыли PDF
 
     // --- Логика приложения ---
 
@@ -79,14 +78,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const renderPage = num => {
         pageRendering = true;
         pdfDoc.getPage(num).then(page => {
-            const viewport = page.getViewport({ scale: 2.0 }); // Увеличим масштаб для лучшего качества
+            const unscaledViewport = page.getViewport({ scale: 1 });
+            const containerWidth = pdfCanvasContainer.clientWidth > 0 ? pdfCanvasContainer.clientWidth : window.innerWidth * 0.9;
+            const scale = (containerWidth - 40) / unscaledViewport.width;
+            const viewport = page.getViewport({ scale: scale });
             const context = pdfCanvas.getContext('2d');
             const outputScale = window.devicePixelRatio || 1;
 
             pdfCanvas.width = Math.floor(viewport.width * outputScale);
             pdfCanvas.height = Math.floor(viewport.height * outputScale);
-            pdfCanvas.style.width = '100%'; // Растягиваем на всю ширину контейнера
-            pdfCanvas.style.height = 'auto';
+            pdfCanvas.style.width = Math.floor(viewport.width) + 'px';
+            pdfCanvas.style.height = Math.floor(viewport.height) + 'px';
             
             context.scale(outputScale, outputScale);
 
@@ -106,23 +108,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (pageRendering) pageNumPending = num; else renderPage(num);
     };
 
-    prevPageButton.addEventListener('click', () => {
-        if (pageNum <= 1) return;
-        pageNum--;
-        queueRenderPage(pageNum);
-    });
-
-    nextPageButton.addEventListener('click', () => {
-        if (pageNum >= pdfDoc.numPages) return;
-        pageNum++;
-        queueRenderPage(pageNum);
-    });
+    prevPageButton.addEventListener('click', () => { if (pageNum <= 1) return; pageNum--; queueRenderPage(pageNum); });
+    nextPageButton.addEventListener('click', () => { if (pageNum >= pdfDoc.numPages) return; pageNum++; queueRenderPage(pageNum); });
 
     const openPdfViewer = (url) => {
-        if (activeContentPageForPdf) activeContentPageForPdf.classList.add('hidden');
         pdfViewerModal.classList.remove('hidden');
-        bottomNav.classList.add('hidden');
-        
         pdfjsLib.getDocument(url).promise.then(pdfDoc_ => {
             pdfDoc = pdfDoc_;
             pageCountSpan.textContent = pdfDoc.numPages;
@@ -137,18 +127,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const closePdfViewer = () => {
         pdfViewerModal.classList.add('hidden');
-        if (activeContentPageForPdf) {
-            activeContentPageForPdf.classList.remove('hidden');
-            activeContentPageForPdf = null;
-        }
-        bottomNav.classList.remove('hidden');
         pdfDoc = null;
     };
 
     document.body.addEventListener('click', e => {
         const pdfButton = e.target.closest('.pdf-button[data-pdf-url]');
         if (pdfButton) {
-            activeContentPageForPdf = pdfButton.closest('.page-content');
             openPdfViewer(pdfButton.dataset.pdfUrl);
         }
     });
