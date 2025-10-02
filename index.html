@@ -10,67 +10,11 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const landingPage = document.getElementById('landing-page');
-        const mainPage = document.getElementById('main-page');
-        const bottomNav = document.getElementById('bottom-nav');
-        const contentPages = document.querySelectorAll('.page-content');
-        const startButton = document.getElementById('start-button');
-        const homeButton = document.getElementById('home-button');
-        const mainPageButtons = document.querySelectorAll('[data-target]');
-        const closePageButtons = document.querySelectorAll('.close-page-button');
-        // Show main menu
-        const showMainMenu = () => {
-            landingPage.classList.add('hidden');
-            mainPage.classList.remove('hidden');
-            bottomNav.classList.remove('hidden');
-            contentPages.forEach(page => page.classList.add('hidden'));
-        };
-        bottomNav.classList.add('hidden');
-        startButton.addEventListener('click', showMainMenu);
-        homeButton.addEventListener('click', showMainMenu);
-        mainPageButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const targetId = btn.dataset.target;
-                const targetPage = document.getElementById(targetId);
-                if (targetPage) {
-                    mainPage.classList.add('hidden');
-                    targetPage.classList.remove('hidden');
-                    targetPage.scrollTop = 0;
-                }
-            });
-        });
-        // Auto-stop video/iframe on close
-        closePageButtons.forEach(btn => {
-            btn.addEventListener('click', function () {
-                const page = btn.closest('.page-content');
-                if (page) {
-                    page.querySelectorAll('video').forEach(video => {
-                        video.pause();
-                        video.currentTime = 0;
-                    });
-                    page.querySelectorAll('iframe').forEach(iframe => {
-                        iframe.src = iframe.src;
-                    });
-                    showMainMenu();
-                } else {
-                    showMainMenu();
-                }
-            });
-        });
-    });
-    </script>
-    <style>
-    .video-description {
-        margin: 10px 0 20px 0;
-        font-size: 1.03rem;
-        color: #16726f;
-        text-align: left;
-    }
-    </style>
+    <script src="main.js" defer></script>
 </head>
 <body>
+
+    <!-- Part 1: Landing Page -->
     <div id="landing-page">
         <div class="landing-content">
             <h1>ХУДЕЕМ ЗА НЕДЕЛЮ</h1>
@@ -78,10 +22,13 @@
             <button id="start-button">Старт</button>
         </div>
     </div>
+
+    <!-- Part 2: Main Menu Page -->
     <main id="main-page" class="hidden">
         <header>
             <h1>План марафона</h1>
         </header>
+
         <nav id="marathon-nav">
             <div class="days-container">
                 <button data-target="day-page--1">Подготовка 1</button>
@@ -95,12 +42,25 @@
                 <button data-target="day-page-7">День 7</button>
             </div>
         </nav>
+
+        <section id="supplementary-materials">
+            <h2>Дополнительные материалы</h2>
+            <div class="supplementary-buttons">
+                <button data-target="supplement-page-recipes"><i class='bx bxs-dish'></i><span>Рецепты</span></button>
+                <button data-target="supplement-page-desserts"><i class='bx bxs-cake'></i><span>Десерты</span></button>
+                <button data-target="supplement-page-checkup"><i class='bx bxs-file-plus'></i><span>Чек-ап</span></button>
+            </div>
+        </section>
+        
         <footer>
             <p>&copy; 2025 "ХУДЕЕМ ЗА НЕДЕЛЮ"</p>
         </footer>
     </main>
+
+    <!-- Part 3: Content Pages -->
     <div id="content-pages">
-        <!-- Подготовка 1 -->
+
+        <!-- Day -1 -->
         <section id="day-page--1" class="page-content hidden">
             <button class="close-page-button"><i class='bx bx-x'></i></button>
             <div class="page-content-area">
@@ -108,19 +68,17 @@
                 <h3>Подготовка: День 1</h3>
                 <p>Приветствие, полезные привычки и основы интервального питания. Готовимся к марафону правильно.</p>
                 <h4>Видео-материалы дня</h4>
-                <div class="video-container vertical-video">
-                    <video src="https://file-storage.bothelp.io/myuppy/39/390a/390a7067549a67c3c906860f51b8a9a7/%D0%9C%D0%90%D1%80%D0%B0%D1%84%D0%BE%D0%BD%20%D0%9F%D1%80%D0%B8%D0%B2%D0%B5%D1%82%D1%81%D1%82%D0%B2%D0%B8%D0%B5.mp4" controls playsinline></video>
-                    <div class="video-description">Вступительное приветствие марафона.</div>
-                    <video src="https://file-storage.bothelp.io/myuppy/80/80d9/80d9ba1918cb9b9adbcc89e8e1b9027e/%D0%9C%D0%90%D1%80%D0%B0%D1%84%D0%BE%D0%BD%20%D0%9F%D0%BE%D0%BB%D0%B5%D0%B7%D0%BD%D1%8B%D0%B5%20%D0%BF%D1%80%D0%B8%D0%B2%D1%8B%D1%87%D0%BA%D0%B8.mp4" controls playsinline></video>
-                    <div class="video-description">О полезных привычках.</div>
-                    <video src="https://file-storage.bothelp.io/myuppy/80/80d9/80d9ba1918cb9b9adbcc89e8e1b9027e/%D0%9C%D0%90%D1%80%D0%B0%D1%84%D0%BE%D0%BD%20%D0%9F%D0%BE%D0%BB%D0%B5%D0%B7%D0%BD%D1%8B%D0%B5%20%D0%BF%D1%80%D0%B8%D0%B2%D1%8B%D1%87%D0%BA%D0%B8.mp4" controls playsinline></video>
-                    <div class="video-description">Мини-урок – ещё практики по привычкам.</div>
+                <div class="video-container">
+                    <video src="https://file-storage.bothelp.io/myuppy/39/390a/390a7067549a67c3c906860f51b8a9a7/%D0%9C%D0%90%D1%80%D0%B0%D1%84%D0%BE%D0%BD%20%D0%9F%D1%80%D0%B8%D0%B2%D0%B5%D1%82%D1%81%D1%82%D0%B2%D0%B8%D0%B5.mp4" controls></video>
+                    <video src="https://file-storage.bothelp.io/myuppy/80/80d9/80d9ba1918cb9b9adbcc89e8e1b9027e/%D0%9C%D0%90%D1%80%D0%B0%D1%84%D0%BE%D0%BD%20%D0%9F%D0%BE%D0%BB%D0%B5%D0%B7%D0%BD%D1%8B%D0%B5%20%D0%BF%D1%80%D0%B8%D0%B2%D1%8B%D1%87%D0%BA%D0%B8.mp4" controls></video>
+                    <video src="https://file-storage.bothelp.io/myuppy/80/80d9/80d9ba1918cb9b9adbcc89e8e1b9027e/%D0%9C%D0%90%D1%80%D0%B0%D1%84%D0%BE%D0%BD%20%D0%9F%D0%BE%D0%BB%D0%B5%D0%B7%D0%BD%D1%8B%D0%B5%20%D0%BF%D1%80%D0%B8%D0%B2%D1%8B%D1%87%D0%BA%D0%B8.mp4" controls></video>
                 </div>
                 <h4>Полезные материалы</h4>
                 <button class="pdf-button" data-pdf-url="./Ezhenedelnyj-spisok-produktov-dlya-zdorovogo-pitaniya.pdf">Скачать список продуктов</button>
             </div>
         </section>
-        <!-- Подготовка 2 -->
+
+        <!-- Day 0 -->
         <section id="day-page-0" class="page-content hidden">
             <button class="close-page-button"><i class='bx bx-x'></i></button>
             <div class="page-content-area">
@@ -131,7 +89,8 @@
                 <button class="pdf-button" data-pdf-url="./menu.pdf">Скачать меню</button>
             </div>
         </section>
-        <!-- День 1 -->
+
+        <!-- Day 1 -->
         <section id="day-page-1" class="page-content hidden">
             <button class="close-page-button"><i class='bx bx-x'></i></button>
             <div class="page-content-area">
@@ -139,13 +98,13 @@
                 <h3>День 1: Мозг - наш союзник</h3>
                 <p>Как использовать силу своего мозга для достижения целей. Работаем с мотивацией.</p>
                 <h4>Видео-материалы дня</h4>
-                <div class="video-container vertical-video">
-                    <video src="https://file-storage.bothelp.io/myuppy/5e/5eae/5eae9d820dea9c233cf770c41d8d2ec8/%D1%86%D0%B5%D0%BB%D0%B8%20%D0%BD%D0%BE%D0%B2%D1%8B%D0%B5.mp4" controls playsinline></video>
-                    <div class="video-description">Как ставить правильные цели.</div>
+                <div class="video-container">
+                    <iframe src="https://file-storage.bothelp.io/myuppy/5e/5eae/5eae9d820dea9c233cf770c41d8d2ec8/%D1%86%D0%B5%D0%BB%D0%B8%20%D0%BD%D0%BE%D0%B2%D1%8B%D0%B5.mp4" allowfullscreen></iframe>
                 </div>
             </div>
         </section>
-        <!-- День 2 -->
+
+        <!-- Day 2 -->
         <section id="day-page-2" class="page-content hidden">
             <button class="close-page-button"><i class='bx bx-x'></i></button>
             <div class="page-content-area">
@@ -153,39 +112,31 @@
                 <h3>День 2: Лимфатическая система</h3>
                 <p>Разгоняем лимфу для избавления от отеков и улучшения самочувствия. Смотрите видео с упражнениями.</p>
                 <h4>Видео-материалы дня</h4>
-                <div class="video-container vertical-video">
-                    <video src="https://file-storage.bothelp.io/myuppy/5b/5b9a/5b9adc7628dd1c064c5e8b857d1c6031/%D0%9C%D0%90%D1%80%D0%B0%D1%84%D0%BE%D0%BD%20%20%D0%9B%D0%B8%D0%BC%D1%84%D0%B0.mp4" controls playsinline></video>
-                    <div class="video-description">Отчего бывают отеки и как помогает лимфодренаж.</div>
-                    <video src="https://file-storage.bothelp.io/myuppy/dd/ddc0/ddc0af0dec962128d68b3e2c3a074f27/%D0%BB%D0%B8%D0%BC%D1%84%D0%B0%20%D1%83%D0%BF%D1%80%D0%B0%D0%B6%D0%BD%D0%B5%D0%BD%D0%B8%D0%B5%201.mp4" controls playsinline></video>
-                    <div class="video-description">Упражнение 1 для активации лимфы.</div>
-                    <video src="https://file-storage.bothelp.io/myuppy/97/9761/9761d6e5ce35a06e6f5ee8cbcd67a311/%D0%BB%D0%B8%D0%BC%D1%84%D0%B0%20%D1%83%D0%BF%D1%80%D0%B0%D0%B6%D0%BD%D0%B5%D0%BD%D0%B8%D0%B5%202.mp4" controls playsinline></video>
-                    <div class="video-description">Упражнение 2 для лимфы.</div>
-                    <video src="https://file-storage.bothelp.io/myuppy/1c/1c9a/1c9a92a93bd1ef17adde2875aabf578d/%D0%BB%D0%B8%D0%BC%D1%84%D0%B0%20%D1%83%D0%BF%D1%80%D0%B0%D0%B6%D0%BD%D0%B5%D0%BD%D0%B8%D0%B5%203.mp4" controls playsinline></video>
-                    <div class="video-description">Упражнение 3 для лимфосистемы.</div>
+                <div class="video-container">
+                    <iframe src="https://file-storage.bothelp.io/myuppy/5b/5b9a/5b9adc7628dd1c064c5e8b857d1c6031/%D0%9C%D0%90%D1%80%D0%B0%D1%84%D0%BE%D0%BD%20%20%D0%9B%D0%B8%D0%BC%D1%84%D0%B0.mp4" allowfullscreen></iframe>
+                    <iframe src="https://file-storage.bothelp.io/myuppy/dd/ddc0/ddc0af0dec962128d68b3e2c3a074f27/%D0%BB%D0%B8%D0%BC%D1%84%D0%B0%20%D1%83%D0%BF%D1%80%D0%B0%D0%B6%D0%BD%D0%B5%D0%BD%D0%B8%D0%B5%201.mp4" allowfullscreen></iframe>
+                    <iframe src="https://file-storage.bothelp.io/myuppy/97/9761/9761d6e5ce35a06e6f5ee8cbcd67a311/%D0%BB%D0%B8%D0%BC%D1%84%D0%B0%20%D1%83%D0%BF%D1%80%D0%B0%D0%B6%D0%BD%D0%B5%D0%BD%D0%B8%D0%B5%202.mp4" allowfullscreen></iframe>
+                    <iframe src="https://file-storage.bothelp.io/myuppy/1c/1c9a/1c9a92a93bd1ef17adde2875aabf578d/%D0%BB%D0%B8%D0%BC%D1%84%D0%B0%20%D1%83%D0%BF%D1%80%D0%B0%D0%B6%D0%BD%D0%B5%D0%BD%D0%B8%D0%B5%203.mp4" allowfullscreen></iframe>
                 </div>
             </div>
         </section>
-        <!-- День 3 -->
-        <section id="day-page-3" class="page-content hidden">
+        
+        <!-- ... other days ... -->
+         <section id="day-page-3" class="page-content hidden">
             <button class="close-page-button"><i class='bx bx-x'></i></button>
             <div class="page-content-area">
                 <img src="https://images.unsplash.com/photo-1506126613408-4e61f36d50da?q=80&w=2070&auto=format&fit=crop" alt="День 3: Медитация и дыхание" class="post-image">
                 <h3>День 3: Медитация и дыхание</h3>
                 <p>Учимся техникам расслабления, которые помогут справиться со стрессом и улучшить концентрацию.</p>
                 <h4>Видео-материалы дня</h4>
-                <div class="video-container vertical-video">
-                    <video src="https://file-storage.bothelp.io/myuppy/b7/b7b9/b7b9d7b7303628747493eedfa64565d0/%D0%9C%D0%90%D1%80%D0%B0%D1%84%D0%BE%D0%BD%20%20%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F.mp4" controls playsinline></video>
-                    <div class="video-description">Практика медитации для всех.</div>
-                    <video src="https://file-storage.bothelp.io/myuppy/72/72c1/72c1c86b3932caec5dcda96ef7f1db60/%D0%9C%D0%90%D1%80%D0%B0%D1%84%D0%BE%D0%BD%20%20%D0%94%D1%8B%D1%85%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5%20%D0%BF%D1%80%D0%B0%D0%BA%D1%82%D0%B8%D0%BA%D0%B8.mp4" controls playsinline></video>
-                    <div class="video-description">Дыхательные практики для восстановления.</div>
-                    <video src="https://file-storage.bothelp.io/myuppy/ee/ee39/ee395ffad55fb74e931e5f9554ee60cc/%D0%B4%D1%8B%D1%85%D0%B0%D0%BD%D0%B8%D0%B5%201.mp4" controls playsinline></video>
-                    <div class="video-description">Дыхание для снижения стресса.</div>
-                    <video src="https://file-storage.bothelp.io/myuppy/2d/2d42/2d42a39f5b3f512d4727d2abd762b371/%D0%B4%D1%8B%D1%85%D0%B0%D0%BD%D0%B8%D0%B5%202.mp4" controls playsinline></video>
-                    <div class="video-description">Углублённая дыхательная техника.</div>
+                <div class="video-container">
+                    <iframe src="https://file-storage.bothelp.io/myuppy/b7/b7b9/b7b9d7b7303628747493eedfa64565d0/%D0%9C%D0%90%D1%80%D0%B0%D1%84%D0%BE%D0%BD%20%20%D0%9C%D0%B5%D0%B4%D0%B8%D1%82%D0%B0%D1%86%D0%B8%D1%8F.mp4" allowfullscreen></iframe>
+                    <iframe src="https://file-storage.bothelp.io/myuppy/72/72c1/72c1c86b3932caec5dcda96ef7f1db60/%D0%9C%D0%90%D1%80%D0%B0%D1%84%D0%BE%D0%BD%20%20%D0%94%D1%8B%D1%85%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5%20%D0%BF%D1%80%D0%B0%D0%BA%D1%82%D0%B8%D0%BA%D0%B8.mp4" allowfullscreen></iframe>
+                    <iframe src="https://file-storage.bothelp.io/myuppy/ee/ee39/ee395ffad55fb74e931e5f9554ee60cc/%D0%B4%D1%8B%D1%85%D0%B0%D0%BD%D0%B8%D0%B5%201.mp4" allowfullscreen></iframe>
+                    <iframe src="https://file-storage.bothelp.io/myuppy/2d/2d42/2d42a39f5b3f512d4727d2abd762b371/%D0%B4%D1%8B%D1%85%D0%B0%D0%BD%D0%B8%D0%B5%202.mp4" allowfullscreen></iframe>
                 </div>
             </div>
         </section>
-        <!-- День 4 -->
         <section id="day-page-4" class="page-content hidden">
             <button class="close-page-button"><i class='bx bx-x'></i></button>
             <div class="page-content-area">
@@ -193,15 +144,12 @@
                 <h3>День 4: Правило тарелки</h3>
                 <p>Простой и эффективный способ сбалансировать свой рацион без подсчета калорий.</p>
                 <h4>Видео-материалы дня</h4>
-                <div class="video-container vertical-video">
-                    <video src="https://file-storage.bothelp.io/myuppy/c1/c17c/c17cdf05cb320d2dc71ada9a9fa7b9a6/%D0%9C%D0%90%D1%80%D0%B0%D1%84%D0%BE%D0%BD%20%20%D1%82%D0%B0%D1%80%D0%B5%D0%BB%D0%BA%D0%B0.mp4" controls playsinline></video>
-                    <div class="video-description">Разбор базового правила "тарелки".</div>
-                    <video src="https://file-storage.bothelp.io/myuppy/ca/ca89/ca89d560aa4d5c5529a914df47fb77e5/%D1%82%D0%B0%D1%80%D0%B5%D0%BB%D0%BA%D0%B0%202.mp4" controls playsinline></video>
-                    <div class="video-description">Бонус: вариации для поддержания баланса.</div>
+                <div class="video-container">
+                    <iframe src="https://file-storage.bothelp.io/myuppy/c1/c17c/c17cdf05cb320d2dc71ada9a9fa7b9a6/%D0%9C%D0%90%D1%80%D0%B0%D1%84%D0%BE%D0%BD%20%20%D1%82%D0%B0%D1%80%D0%B5%D0%BB%D0%BA%D0%B0.mp4" allowfullscreen></iframe>
+                    <iframe src="https://file-storage.bothelp.io/myuppy/ca/ca89/ca89d560aa4d5c5529a914df47fb77e5/%D1%82%D0%B0%D1%80%D0%B5%D0%BB%D0%BA%D0%B0%202.mp4" allowfullscreen></iframe>
                 </div>
             </div>
         </section>
-        <!-- День 5 -->
         <section id="day-page-5" class="page-content hidden">
             <button class="close-page-button"><i class='bx bx-x'></i></button>
             <div class="page-content-area">
@@ -209,13 +157,11 @@
                 <h3>День 5: Важность БАДов</h3>
                 <p>Разбираемся, какие добавки действительно нужны нашему организму и как их правильно принимать.</p>
                 <h4>Видео-материалы дня</h4>
-                <div class="video-container vertical-video">
-                    <video src="https://file-storage.bothelp.io/myuppy/37/37f2/37f21697373a019d1eefd958c5417b60/%D0%9C%D0%90%D1%80%D0%B0%D1%84%D0%BE%D0%BD%20%20%D0%91%D0%B0%D0%B4%D1%8B.mp4" controls playsinline></video>
-                    <div class="video-description">Всё о пользе и вреде БАДов.</div>
+                <div class="video-container">
+                    <iframe src="https://file-storage.bothelp.io/myuppy/37/37f2/37f21697373a019d1eefd958c5417b60/%D0%9C%D0%90%D1%80%D0%B0%D1%84%D0%BE%D0%BD%20%20%D0%91%D0%B0%D0%B4%D1%8B.mp4" allowfullscreen></iframe>
                 </div>
             </div>
         </section>
-        <!-- День 6 -->
         <section id="day-page-6" class="page-content hidden">
             <button class="close-page-button"><i class='bx bx-x'></i></button>
             <div class="page-content-area">
@@ -223,13 +169,11 @@
                 <h3>День 6: Интеграция</h3>
                 <p>Закрепляем полученные знания и готовимся применять их в повседневной жизни. Свободная тема.</p>
                 <h4>Видео-материалы дня</h4>
-                <div class="video-container vertical-video">
-                    <video src="https://file-storage.bothelp.io/myuppy/05/0594/0594942f0556c9acffdd01ee714475dc/%D1%81%D1%82%D1%80%D0%B5%D1%81%D1%81%202500.mp4" controls playsinline></video>
-                    <div class="video-description">Стресс и способы его интеграции.</div>
+                <div class="video-container">
+                    <iframe src="https://file-storage.bothelp.io/myuppy/05/0594/0594942f0556c9acffdd01ee714475dc/%D1%81%D1%82%D1%80%D0%B5%D1%81%D1%81%202500.mp4" allowfullscreen></iframe>
                 </div>
             </div>
         </section>
-        <!-- День 7 -->
         <section id="day-page-7" class="page-content hidden">
             <button class="close-page-button"><i class='bx bx-x'></i></button>
             <div class="page-content-area">
@@ -237,18 +181,61 @@
                 <h3>День 7: Новая жизнь</h3>
                 <p>Подводим итоги и строим планы на будущее. Вы на верном пути к здоровью и красоте!</p>
                 <h4>Видео-материалы дня</h4>
-                <div class="video-container vertical-video">
-                    <video src="https://file-storage.bothelp.io/myuppy/95/9590/9590d2c1608357f791bb160a109974cf/%D0%B7%D0%B0%D0%BA%D0%BB%D1%8E%D1%87%D1%87%D1%87%D0%B5%D0%BD%D0%B8%D0%B5.mp4" controls playsinline></video>
-                    <div class="video-description">Подведение итогов марафона.</div>
-                    <video src="https://file-storage.bothelp.io/myuppy/bd/bd88/bd8813554afd2c2038388f55082f2068/%D0%B1%D0%BE%D0%BD%D1%83%D1%81.mp4" controls playsinline></video>
-                    <div class="video-description">Бонус: полезный совет напоследок.</div>
+                <div class="video-container">
+                    <iframe src="https://file-storage.bothelp.io/myuppy/95/9590/9590d2c1608357f791bb160a109974cf/%D0%B7%D0%B0%D0%BA%D0%BB%D1%8E%D1%87%D1%87%D1%87%D0%B5%D0%BD%D0%B8%D0%B5.mp4" allowfullscreen></iframe>
+                    <iframe src="https://file-storage.bothelp.io/myuppy/bd/bd88/bd8813554afd2c2038388f55082f2068/%D0%B1%D0%BE%D0%BD%D1%83%D1%81.mp4" allowfullscreen></iframe>
                 </div>
             </div>
         </section>
+
+        <!-- Supplementary Pages -->
+        <section id="supplement-page-recipes" class="page-content hidden">
+            <button class="close-page-button"><i class='bx bx-x'></i></button>
+            <div class="page-content-area">
+                <h3>Рецепты</h3>
+                <p>Сборник здоровых и вкусных рецептов на каждый день.</p>
+                <button class="pdf-button" data-pdf-url="./быстрые_ПП_рецепты_для_зянятых_людей_.pdf"><i class='bx bxs-file-pdf'></i> Открыть файл</button>
+            </div>
+        </section>
+        <section id="supplement-page-desserts" class="page-content hidden">
+            <button class="close-page-button"><i class='bx bx-x'></i></button>
+            <div class="page-content-area">
+                <h3>Десерты</h3>
+                <p>Полезные десерты, которые можно есть без вреда для фигуры.</p>
+                <button class="pdf-button" data-pdf-url="./ПП десерты .pdf"><i class='bx bxs-file-pdf'></i> Открыть файл</button>
+            </div>
+        </section>
+        <section id="supplement-page-checkup" class="page-content hidden">
+            <button class="close-page-button"><i class='bx bx-x'></i></button>
+            <div class="page-content-area">
+                <h3>Чек-ап здоровья</h3>
+                <p>Список анализов, которые стоит сдавать регулярно для контроля своего здоровья.</p>
+                <button class="pdf-button" data-pdf-url="./Laboratornaya-diagnostika-Klyuch-k-vashemu-zdorovyu.pdf"><i class='bx bxs-file-pdf'></i> Открыть файл</button>
+            </div>
+        </section>
+
     </div>
+
+    <!-- Persistent Bottom Navigation -->
     <nav id="bottom-nav">
         <button id="home-button"><i class='bx bxs-home'></i><span>Главная</span></button>
         <button id="chat-button"><i class='bx bxs-message-rounded-dots'></i><span>Общение</span></button>
     </nav>
+
+    <!-- PDF.js Viewer Modal -->
+    <div id="pdf-viewer-modal" class="hidden">
+        <div id="pdf-viewer-controls">
+            <button id="pdf-close-button"><i class='bx bx-x'></i></button>
+            <div id="pdf-pagination">
+                <button id="pdf-prev-page"><i class='bx bx-chevron-left'></i></button>
+                <span id="pdf-page-num"></span> / <span id="pdf-page-count"></span>
+                <button id="pdf-next-page"><i class='bx bx-chevron-right'></i></button>
+            </div>
+        </div>
+        <div id="pdf-canvas-container">
+            <canvas id="pdf-canvas"></canvas>
+        </div>
+    </div>
+
 </body>
 </html>
