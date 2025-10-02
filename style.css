@@ -39,7 +39,7 @@ body {
     position: fixed;
     top: 0; left: 0;
     box-sizing: border-box;
-    padding-top: 150px;
+    padding-top: 50px;
 }
 #landing-page::before {
     content: '';
@@ -49,7 +49,7 @@ body {
 }
 .landing-content { position: relative; z-index: 2; padding: 1rem; }
 .landing-content h1 { font-size: 3.5rem; font-weight: 800; margin-bottom: 0.5rem; margin-top: 0px;}
-.landing-content p { font-size: 1.3rem; margin-bottom: 2.5rem; opacity: 0.9; margin-top: 600px; text-align: center;}
+.landing-content p { font-size: 1.3rem; margin-bottom: 2.5rem; opacity: 0.9; margin-top: 400px; text-align: center;}
 #start-button {
     background-color: var(--accent-color);
     color: #FFFFFF;
