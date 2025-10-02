@@ -1,11 +1,11 @@
 :root {
     --primary-bg: #eeeeee;
-    --card-bg: rgba(255, 255, 255, 0.9);
+    --card-bg: #FFFFFF; 
     --text-color: #333333;
-    --accent-color: #16726f; /* Основной яркий акцент */
+    --accent-color: #16726f; 
     --accent-hover: #135e5c;
     --secondary-accent: #6c757d;
-    --shadow-color: rgba(0, 0, 0, 0.08);
+    --shadow-color: rgba(0, 0, 0, 0.08); 
     --font-family: 'Montserrat', sans-serif;
     --bottom-nav-height: 70px;
 }
@@ -25,7 +25,6 @@ body:has(#landing-page:not(.hidden)) {
 body {
     padding-bottom: var(--bottom-nav-height);
 }
-/* --- Part 1: Landing Page --- */
 #landing-page {
     height: 100vh;
     width: 100vw;
@@ -34,7 +33,7 @@ body {
     justify-content: center;
     align-items: center;
     text-align: center;
-    color: white;
+    color: #FFFFFF;
     background: url('https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1974&auto=format&fit=crop') no-repeat center center/cover;
     background-color: var(--secondary-accent);
     position: fixed;
@@ -52,7 +51,7 @@ body {
 .landing-content p { font-size: 1.3rem; margin-bottom: 2.5rem; opacity: 0.9; }
 #start-button {
     background-color: var(--accent-color);
-    color: white;
+    color: #FFFFFF;
     padding: 1rem 3rem;
     border: none;
     border-radius: 50px;
@@ -67,7 +66,6 @@ body {
     transform: translateY(-3px);
     box-shadow: 0 12px 25px rgba(0,0,0,0.3);
 }
-/* --- Part 2: Main Menu Page --- */
 #main-page {
     min-height: 100vh;
     display: flex;
@@ -75,7 +73,7 @@ body {
     background-color: var(--primary-bg);
     box-sizing: border-box;
 }
-#main-page header { text-align: center; padding: 1.5rem; background: var(--card-bg); border-bottom: 1px solid rgba(0,0,0,0.05); }
+#main-page header { text-align: center; padding: 1.5rem; background: var(--card-bg); border-bottom: 1px solid #EAEAEA; }
 #main-page header h1 { font-size: 2rem; font-weight: 800; margin: 0; color: var(--text-color); }
 .days-container { display: flex; flex-direction: column; align-items: stretch; gap: 1rem; padding: 1.5rem; }
 .supplementary-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; padding: 1.5rem; }
@@ -95,18 +93,17 @@ body {
 }
 .days-container button:hover, .supplementary-buttons button:hover {
     background: var(--accent-color);
-    color: white;
+    color: #FFFFFF; 
     transform: translateY(-2px);
     box-shadow: 0 8px 15px var(--shadow-color);
 }
 #supplementary-materials h2 { text-align: center; font-size: 1.5rem; font-weight: 700; color: var(--text-color); margin-top: 1rem; margin-bottom: 0; }
 #main-page footer { text-align: center; padding: 1rem; margin-top: auto; color: var(--secondary-accent); font-size: 0.9rem; }
-/* --- Bottom Navigation --- */
 #bottom-nav {
     position: fixed;
     bottom: 0; left: 0; right: 0;
     height: var(--bottom-nav-height);
-    background: white;
+    background: #FFFFFF;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -117,7 +114,6 @@ body {
 #bottom-nav button { background: none; border: none; color: var(--secondary-accent); font-family: var(--font-family); font-size: 0.75rem; font-weight: 600; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; transition: color 0.3s ease; }
 #bottom-nav button:hover { color: var(--accent-color); }
 #bottom-nav i { font-size: 1.8rem; }
-/* --- Part 3: Content Pages --- */
 .page-content {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -125,8 +121,8 @@ body {
     z-index: 2000;
     overflow-y: auto;
     padding: 1.5rem;
-    padding-top: 60px; /* Space for close button */
-    padding-bottom: calc(var(--bottom-nav-height) + 1.5rem); /* Space for nav bar */
+    padding-top: 60px;
+    padding-bottom: calc(var(--bottom-nav-height) + 1.5rem); 
     box-sizing: border-box;
 }
 .close-page-button {
@@ -134,7 +130,7 @@ body {
     top: 15px; right: 15px;
     width: 40px; height: 40px;
     background: var(--accent-color);
-    color: white;
+    color: #FFFFFF;
     border: none; border-radius: 50%;
     font-size: 28px; line-height: 40px; text-align: center;
     cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
@@ -150,9 +146,9 @@ body {
 .page-content-area .post-image { width: 100%; height: 350px; object-fit: cover; border-radius: 12px; margin-bottom: 2rem; }
 .page-content-area h4 { font-size: 1.8rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--text-color); border-left: 4px solid var(--accent-color); padding-left: 1rem; }
 .page-content-area .video-container { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; margin-bottom: 2rem; }
-.page-content-area iframe, .page-content-area video { width: 100%; max-width: 360px; aspect-ratio: 9 / 16; border: none; border-radius: 12px; max-height: 80vh; background-color: #000; }
+.page-content-area iframe, .page-content-area video { width: 100%; max-width: 360px; aspect-ratio: 9 / 16; border: none; border-radius: 12px; max-height: 80vh; background-color: #000000; }
 .page-content-area .video-description { margin: 10px 0 20px 0; font-size: 1.03rem; color: #16726f; text-align: left; }
-.page-content-area .pdf-button { background-color: var(--accent-color); color: white; padding: 1rem 2rem; border: none; border-radius: 8px; font-size: 1.1rem; cursor: pointer; transition: all 0.3s; font-weight: 700; }
+.page-content-area .pdf-button { background-color: var(--accent-color); color: #FFFFFF; padding: 1rem 2rem; border: none; border-radius: 8px; font-size: 1.1rem; cursor: pointer; transition: all 0.3s; font-weight: 700; }
 .page-content-area .pdf-button:hover { background-color: var(--accent-hover); }
 @media (max-width: 768px) {
     .landing-content h1 { font-size: 2.8rem; }
