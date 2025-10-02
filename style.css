@@ -34,7 +34,7 @@ body {
     align-items: center;
     text-align: center;
     color: #FFFFFF;
-    background: url('/IMG_0384.JPG') no-repeat center center/cover;
+    background: url('IMG_0384.JPG') no-repeat center center/cover;
     background-color: var(--secondary-accent);
     position: fixed;
     top: 0; left: 0;
