@@ -38,7 +38,14 @@ document.addEventListener('DOMContentLoaded', () => {
         landingPage.classList.add('hidden');
         mainPage.classList.remove('hidden');
         bottomNav.classList.remove('hidden');
-        contentPages.forEach(page => page.classList.add('hidden'));
+        contentPages.forEach(page => {
+            page.classList.add('hidden');
+            // Остановка всех видео на скрываемых страницах
+            page.querySelectorAll('video').forEach(video => {
+                video.pause();
+                video.currentTime = 0;
+            });
+        });
     };
 
     // 2. Кнопка "Старт" и кнопка "Домой"
@@ -61,17 +68,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // 4. Закрытие страницы с контентом
     closePageButtons.forEach(button => {
         button.addEventListener('click', () => {
-            // Находим родительскую страницу, которую нужно скрыть
             const page = button.closest('.page-content');
             if (page) {
-                // Останавливаем все видео и iframe на странице
+                page.classList.add('hidden');
+                // Остановка всех видео на скрываемой странице
                 page.querySelectorAll('video').forEach(video => {
                     video.pause();
                     video.currentTime = 0;
-                });
-                page.querySelectorAll('iframe').forEach(iframe => {
-                    const src = iframe.src;
-                    iframe.src = src; // Перезагружаем iframe, чтобы остановить видео
                 });
             }
             showMainMenu();
@@ -80,71 +83,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Логика для просмотра PDF ---
 
-    // Указываем путь к worker-скрипту
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js';
 
-    /**
-     * Рендерит определенную страницу PDF, подгоняя ее под ширину контейнера.
-     * @param {number} num Номер страницы для рендеринга.
-     */
     const renderPage = num => {
         pageRendering = true;
-
-        // Получаем страницу из документа
         pdfDoc.getPage(num).then(page => {
-            // --- ИСПРАВЛЕННАЯ ЛОГИКА МАСШТАБИРОВАНИЯ ---
-
-            // 1. Получаем viewport с масштабом 1, чтобы узнать оригинальный размер
             const unscaledViewport = page.getViewport({ scale: 1 });
-
-            // 2. Вычисляем нужный масштаб, чтобы вписать страницу по ширине контейнера.
-            //    Отнимаем 20px, чтобы по бокам остались небольшие отступы для эстетики.
             const scale = (pdfCanvasContainer.clientWidth - 20) / unscaledViewport.width;
-
-            // 3. Создаем финальный viewport с правильным, вычисленным масштабом
             const viewport = page.getViewport({ scale: scale });
-
-            // --- КОНЕЦ ИСПРАВЛЕННОЙ ЛОГИКИ ---
-
             const context = pdfCanvas.getContext('2d');
             const outputScale = window.devicePixelRatio || 1;
-
-            // Устанавливаем фактический размер холста с учетом плотности пикселей для четкости
             pdfCanvas.width = Math.floor(viewport.width * outputScale);
             pdfCanvas.height = Math.floor(viewport.height * outputScale);
-
-            // Устанавливаем CSS-размер холста, который видит пользователь
             pdfCanvas.style.width = Math.floor(viewport.width) + 'px';
             pdfCanvas.style.height = Math.floor(viewport.height) + 'px';
-            
             context.scale(outputScale, outputScale);
-
             const renderContext = {
                 canvasContext: context,
-                viewport: viewport // Используем финальный viewport для отрисовки
+                viewport: viewport
             };
-
             const renderTask = page.render(renderContext);
-
-            // Ждем завершения отрисовки
             renderTask.promise.then(() => {
                 pageRendering = false;
                 if (pageNumPending !== null) {
-                    // Если была запрошена другая страница, пока шла отрисовка, рендерим ее
                     renderPage(pageNumPending);
                     pageNumPending = null;
                 }
             });
         });
-
-        // Обновляем счетчик страниц
         pageNumSpan.textContent = num;
     };
 
-    /**
-     * Если другая страница уже рендерится, ставит новую в очередь.
-     * Иначе, сразу рендерит.
-     */
     const queueRenderPage = num => {
         if (pageRendering) {
             pageNumPending = num;
@@ -152,8 +121,6 @@ document.addEventListener('DOMContentLoaded', () => {
             renderPage(num);
         }
     };
-
-    // --- Обработчики событий для PDF-просмотрщика ---
 
     const onPrevPage = () => {
         if (pageNum <= 1) return;
@@ -169,19 +136,13 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     nextPageButton.addEventListener('click', onNextPage);
 
-    /**
-     * Асинхронно загружает и открывает PDF.
-     * @param {string} url URL PDF-файла.
-     */
     const openPdfViewer = (url) => {
         pdfViewerModal.classList.remove('hidden');
-        bottomNav.classList.add('hidden'); // Прячем навигацию при открытом PDF
-
-        // Асинхронная загрузка PDF
+        bottomNav.classList.add('hidden');
         pdfjsLib.getDocument(url).promise.then(pdfDoc_ => {
             pdfDoc = pdfDoc_;
             pageCountSpan.textContent = pdfDoc.numPages;
-            pageNum = 1; // Всегда начинаем с первой страницы
+            pageNum = 1;
             renderPage(pageNum);
         }).catch(err => {
             console.error('Error loading PDF:', err);
@@ -190,16 +151,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // Функция закрытия PDF-просмотрщика
     const closePdfViewer = () => {
         pdfViewerModal.classList.add('hidden');
         bottomNav.classList.remove('hidden');
-        // Сбрасываем состояние
         pdfDoc = null;
         pageNum = 1;
     };
 
-    // Единый обработчик для всех кнопок, открывающих PDF
     document.body.addEventListener('click', e => {
         const pdfButton = e.target.closest('.pdf-button[data-pdf-url]');
         if (pdfButton) {
@@ -207,6 +165,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Обработчик для кнопки закрытия PDF
     pdfCloseButton.addEventListener('click', closePdfViewer);
 });

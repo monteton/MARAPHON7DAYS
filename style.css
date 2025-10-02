@@ -111,8 +111,25 @@ body {
     z-index: 2500;
 }
 #bottom-nav.hidden { display: none; }
-#bottom-nav button { background: none; border: none; color: var(--secondary-accent); font-family: var(--font-family); font-size: 0.75rem; font-weight: 600; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; transition: color 0.3s ease; }
-#bottom-nav button:hover { color: var(--accent-color); }
+/* Стили для кнопок в нижней навигации */
+#bottom-nav button, #bottom-nav a {
+    background: none;
+    border: none;
+    color: var(--secondary-accent);
+    font-family: var(--font-family);
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    transition: color 0.3s ease;
+    text-decoration: none; /* Убираем подчеркивание у ссылки */
+}
+#bottom-nav button:hover, #bottom-nav a:hover {
+    color: var(--accent-color);
+}
 #bottom-nav i { font-size: 1.8rem; }
 .page-content {
     position: fixed;
