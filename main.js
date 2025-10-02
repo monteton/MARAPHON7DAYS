@@ -1,18 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- Page Elements ---
+    // --- Элементы страницы ---
     const landingPage = document.getElementById('landing-page');
     const mainPage = document.getElementById('main-page');
     const bottomNav = document.getElementById('bottom-nav');
     const contentPages = document.querySelectorAll('.page-content');
 
-    // --- Buttons ---
+    // --- Кнопки ---
     const startButton = document.getElementById('start-button');
     const homeButton = document.getElementById('home-button');
     const mainPageButtons = document.querySelectorAll('[data-target]');
     const closePageButtons = document.querySelectorAll('.close-page-button');
 
-    // --- PDF.js Viewer Elements ---
+    // --- Элементы для просмотра PDF ---
     const pdfViewerModal = document.getElementById('pdf-viewer-modal');
     const pdfCloseButton = document.getElementById('pdf-close-button');
     const pdfCanvas = document.getElementById('pdf-canvas');
@@ -22,18 +22,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const pageNumSpan = document.getElementById('pdf-page-num');
     const pageCountSpan = document.getElementById('pdf-page-count');
 
-    // --- PDF.js State ---
+    // --- Состояние PDF ---
     let pdfDoc = null;
     let pageNum = 1;
     let pageRendering = false;
     let pageNumPending = null;
 
-    // --- App Logic ---
+    // --- Логика приложения ---
 
-    // 1. Initial State: Hide nav on landing page
+    // 1. Начальное состояние: скрыть навигацию на главной странице
     bottomNav.classList.add('hidden');
 
-    // Function to show the main menu
+    // Функция для отображения главного меню
     const showMainMenu = () => {
         landingPage.classList.add('hidden');
         mainPage.classList.remove('hidden');
@@ -41,11 +41,11 @@ document.addEventListener('DOMContentLoaded', () => {
         contentPages.forEach(page => page.classList.add('hidden'));
     };
 
-    // 2. Start App & Home Button
+    // 2. Кнопка "Старт" и кнопка "Домой"
     startButton.addEventListener('click', showMainMenu);
     homeButton.addEventListener('click', showMainMenu);
 
-    // 3. Open Content Page from Main Menu
+    // 3. Открытие страницы с контентом из главного меню
     mainPageButtons.forEach(button => {
         button.addEventListener('click', () => {
             const targetId = button.dataset.target;
@@ -53,29 +53,44 @@ document.addEventListener('DOMContentLoaded', () => {
             if (targetPage) {
                 mainPage.classList.add('hidden');
                 targetPage.classList.remove('hidden');
-                targetPage.scrollTop = 0; // Scroll to top
+                targetPage.scrollTop = 0; // Прокрутка в начало
             }
         });
     });
 
-    // 4. Close Content Page
+    // 4. Закрытие страницы с контентом
     closePageButtons.forEach(button => {
-        button.addEventListener('click', showMainMenu);
+        button.addEventListener('click', () => {
+            // Находим родительскую страницу, которую нужно скрыть
+            const page = button.closest('.page-content');
+            if (page) {
+                // Останавливаем все видео и iframe на странице
+                page.querySelectorAll('video').forEach(video => {
+                    video.pause();
+                    video.currentTime = 0;
+                });
+                page.querySelectorAll('iframe').forEach(iframe => {
+                    const src = iframe.src;
+                    iframe.src = src; // Перезагружаем iframe, чтобы остановить видео
+                });
+            }
+            showMainMenu();
+        });
     });
 
-    // --- PDF.js Viewer Logic ---
+    // --- Логика для просмотра PDF ---
 
-    // Set worker source
+    // Указываем путь к worker-скрипту
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js';
 
     /**
-     * Renders a specific page of the PDF, fitting it to the container width.
-     * @param {number} num The page number to render.
+     * Рендерит определенную страницу PDF, подгоняя ее под ширину контейнера.
+     * @param {number} num Номер страницы для рендеринга.
      */
     const renderPage = num => {
         pageRendering = true;
 
-        // Get the page from the document
+        // Получаем страницу из документа
         pdfDoc.getPage(num).then(page => {
             // --- ИСПРАВЛЕННАЯ ЛОГИКА МАСШТАБИРОВАНИЯ ---
 
