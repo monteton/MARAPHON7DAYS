@@ -111,7 +111,6 @@ body {
     z-index: 2500;
 }
 #bottom-nav.hidden { display: none; }
-/* Стили для кнопок в нижней навигации */
 #bottom-nav button, #bottom-nav a {
     background: none;
     border: none;
@@ -125,7 +124,7 @@ body {
     align-items: center;
     gap: 4px;
     transition: color 0.3s ease;
-    text-decoration: none; /* Убираем подчеркивание у ссылки */
+    text-decoration: none;
 }
 #bottom-nav button:hover, #bottom-nav a:hover {
     color: var(--accent-color);
@@ -163,10 +162,50 @@ body {
 .page-content-area .post-image { width: 100%; height: 350px; object-fit: cover; border-radius: 12px; margin-bottom: 2rem; }
 .page-content-area h4 { font-size: 1.8rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--text-color); border-left: 4px solid var(--accent-color); padding-left: 1rem; }
 .page-content-area .video-container { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; margin-bottom: 2rem; }
-.page-content-area iframe, .page-content-area video { width: 100%; max-width: 360px; aspect-ratio: 9 / 16; border: none; border-radius: 12px; max-height: 80vh; background-color: #000000; }
+.page-content-area .video-container.vertical-video video { width: 100%; max-width: 360px; aspect-ratio: 9/16; border: none; border-radius: 12px; max-height: 80vh; background-color: #000000; }
 .page-content-area .video-description { margin: 10px 0 20px 0; font-size: 1.03rem; color: #16726f; text-align: left; }
 .page-content-area .pdf-button { background-color: var(--accent-color); color: #FFFFFF; padding: 1rem 2rem; border: none; border-radius: 8px; font-size: 1.1rem; cursor: pointer; transition: all 0.3s; font-weight: 700; }
 .page-content-area .pdf-button:hover { background-color: var(--accent-hover); }
+
+/* PDF Viewer Styles */
+#pdf-viewer-modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: var(--primary-bg);
+    z-index: 3000;
+    overflow-y: auto;
+}
+#pdf-viewer-controls {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 3001;
+}
+#pdf-close-button {
+    background: var(--accent-color);
+    color: white;
+    border: none; border-radius: 50%;
+    width: 40px; height: 40px;
+    font-size: 24px;
+    cursor: pointer;
+}
+#pdf-canvas-container {
+    margin-top: 70px; /* Offset for controls */
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+}
+#pdf-canvas {
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
 @media (max-width: 768px) {
     .landing-content h1 { font-size: 2.8rem; }
     #main-page header h1 { font-size: 1.8rem; }

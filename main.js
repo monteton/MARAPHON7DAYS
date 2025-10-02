@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let pageNum = 1;
     let pageRendering = false;
     let pageNumPending = null;
+    let activeContentPageForPdf = null; // Хранит активную страницу, с которой открыли PDF
 
     // --- Логика приложения ---
 
@@ -40,7 +41,6 @@ document.addEventListener('DOMContentLoaded', () => {
         bottomNav.classList.remove('hidden');
         contentPages.forEach(page => {
             page.classList.add('hidden');
-            // Остановка всех видео на скрываемых страницах
             page.querySelectorAll('video').forEach(video => {
                 video.pause();
                 video.currentTime = 0;
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (targetPage) {
                 mainPage.classList.add('hidden');
                 targetPage.classList.remove('hidden');
-                targetPage.scrollTop = 0; // Прокрутка в начало
+                targetPage.scrollTop = 0;
             }
         });
     });
@@ -68,15 +68,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // 4. Закрытие страницы с контентом
     closePageButtons.forEach(button => {
         button.addEventListener('click', () => {
-            const page = button.closest('.page-content');
-            if (page) {
-                page.classList.add('hidden');
-                // Остановка всех видео на скрываемой странице
-                page.querySelectorAll('video').forEach(video => {
-                    video.pause();
-                    video.currentTime = 0;
-                });
-            }
             showMainMenu();
         });
     });
@@ -88,22 +79,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const renderPage = num => {
         pageRendering = true;
         pdfDoc.getPage(num).then(page => {
-            const unscaledViewport = page.getViewport({ scale: 1 });
-            const scale = (pdfCanvasContainer.clientWidth - 20) / unscaledViewport.width;
-            const viewport = page.getViewport({ scale: scale });
+            const viewport = page.getViewport({ scale: 2.0 }); // Увеличим масштаб для лучшего качества
             const context = pdfCanvas.getContext('2d');
             const outputScale = window.devicePixelRatio || 1;
+
             pdfCanvas.width = Math.floor(viewport.width * outputScale);
             pdfCanvas.height = Math.floor(viewport.height * outputScale);
-            pdfCanvas.style.width = Math.floor(viewport.width) + 'px';
-            pdfCanvas.style.height = Math.floor(viewport.height) + 'px';
+            pdfCanvas.style.width = '100%'; // Растягиваем на всю ширину контейнера
+            pdfCanvas.style.height = 'auto';
+            
             context.scale(outputScale, outputScale);
-            const renderContext = {
-                canvasContext: context,
-                viewport: viewport
-            };
-            const renderTask = page.render(renderContext);
-            renderTask.promise.then(() => {
+
+            const renderContext = { canvasContext: context, viewport: viewport };
+            page.render(renderContext).promise.then(() => {
                 pageRendering = false;
                 if (pageNumPending !== null) {
                     renderPage(pageNumPending);
@@ -115,52 +103,52 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const queueRenderPage = num => {
-        if (pageRendering) {
-            pageNumPending = num;
-        } else {
-            renderPage(num);
-        }
+        if (pageRendering) pageNumPending = num; else renderPage(num);
     };
 
-    const onPrevPage = () => {
+    prevPageButton.addEventListener('click', () => {
         if (pageNum <= 1) return;
         pageNum--;
         queueRenderPage(pageNum);
-    };
-    prevPageButton.addEventListener('click', onPrevPage);
+    });
 
-    const onNextPage = () => {
+    nextPageButton.addEventListener('click', () => {
         if (pageNum >= pdfDoc.numPages) return;
         pageNum++;
         queueRenderPage(pageNum);
-    };
-    nextPageButton.addEventListener('click', onNextPage);
+    });
 
     const openPdfViewer = (url) => {
+        if (activeContentPageForPdf) activeContentPageForPdf.classList.add('hidden');
         pdfViewerModal.classList.remove('hidden');
         bottomNav.classList.add('hidden');
+        
         pdfjsLib.getDocument(url).promise.then(pdfDoc_ => {
             pdfDoc = pdfDoc_;
             pageCountSpan.textContent = pdfDoc.numPages;
             pageNum = 1;
             renderPage(pageNum);
         }).catch(err => {
-            console.error('Error loading PDF:', err);
-            alert('Не удалось загрузить PDF. Пожалуйста, проверьте консоль для получения дополнительной информации.');
+            console.error('Ошибка загрузки PDF:', err);
+            alert('Не удалось загрузить PDF-файл.');
             closePdfViewer();
         });
     };
 
     const closePdfViewer = () => {
         pdfViewerModal.classList.add('hidden');
+        if (activeContentPageForPdf) {
+            activeContentPageForPdf.classList.remove('hidden');
+            activeContentPageForPdf = null;
+        }
         bottomNav.classList.remove('hidden');
         pdfDoc = null;
-        pageNum = 1;
     };
 
     document.body.addEventListener('click', e => {
         const pdfButton = e.target.closest('.pdf-button[data-pdf-url]');
         if (pdfButton) {
+            activeContentPageForPdf = pdfButton.closest('.page-content');
             openPdfViewer(pdfButton.dataset.pdfUrl);
         }
     });
