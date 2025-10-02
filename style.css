@@ -1,9 +1,9 @@
 :root {
-    --primary-bg: b0cb83;
+    --primary-bg: #fff8bb;
     --card-bg: #FFFFFF; 
     --text-color: #333333;
-    --accent-color: #16726f; 
-    --accent-hover: #135e5c;
+    --accent-color: #aab650; 
+    --accent-hover: #aab650;
     --secondary-accent: #6c757d;
     --shadow-color: rgba(0, 0, 0, 0.08); 
     --font-family: 'Montserrat', sans-serif;
