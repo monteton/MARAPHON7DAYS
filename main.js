@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const renderAllPages = async () => {
                 for (let pageNum = 1; pageNum <= numPages; pageNum++) {
                     const page = await pdfDoc.getPage(pageNum);
-                    const viewport = page.getViewport({ scale: 1.5 });
+                    const viewport = page.getViewport({ scale: 2.0 });
                     const canvas = document.createElement('canvas');
                     const context = canvas.getContext('2d');
                     canvas.height = viewport.height;
