@@ -183,48 +183,52 @@ body {
 #pdf-viewer-modal {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    background-color: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(5px);
+    background-color: #e8e8e8;
     z-index: 3000;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2rem;
     box-sizing: border-box;
 }
 #pdf-viewer-content {
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-    width: 90vw;
-    max-width: 800px;
-    height: 90vh;
+    width: 100vw;
+    height: 100vh;
     display: flex;
     flex-direction: column;
+    background: #e8e8e8;
 }
 #pdf-viewer-controls {
-    background: #f1f1f1;
-    padding: 10px 15px;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    padding: 1rem;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    border-bottom: 1px solid #ddd;
-    border-radius: 12px 12px 0 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 3001;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 #pdf-viewer-title { font-size: 1.1rem; font-weight: 700; }
 #pdf-close-button {
-    background: #e44; color: white;
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #333; color: white;
     border: none; border-radius: 50%;
-    width: 30px; height: 30px;
-    font-size: 20px; line-height: 30px;
+    width: 40px; height: 40px;
+    font-size: 24px; line-height: 40px;
     cursor: pointer;
 }
 #pdf-canvas-container {
     flex-grow: 1;
     overflow-y: auto;
-    padding: 1.5rem;
+    padding: 1rem;
+    padding-top: 80px; /* Отступ от фиксированной панели управления */
     text-align: center;
-    background: #e8e8e8;
 }
 #pdf-canvas-container canvas {
     max-width: 100%;
@@ -238,5 +242,4 @@ body {
     #main-page header h1 { font-size: 1.8rem; }
     .days-container, .supplementary-buttons, .pdf-buttons-container { padding: 1rem; flex-direction: column; }
     .page-content-area h3 { font-size: 2rem; }
-    #pdf-viewer-content { width: 100vw; height: 100vh; max-width: 100vw; max-height: 100vh; border-radius: 0; }
 }
